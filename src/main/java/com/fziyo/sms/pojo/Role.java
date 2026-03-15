@@ -5,14 +5,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class Emp {
+public class Role {
     private Integer id;
-    private String empNo;
-    private String realName;
-    private String passwordHash;
-    private Integer gender;
-    private Integer teamId;
-    private Integer roleId;
+    private String roleName;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }
