@@ -4,7 +4,9 @@ import com.fziyo.sms.pojo.Role;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 
 @Mapper
 public interface RoleMapper {
@@ -14,6 +16,6 @@ public interface RoleMapper {
                     "values(#{roleName}, #{createTime}, #{updateTime})")
     void insert(Role role);
     
-    void deleteById(Integer id);
+    void deleteByIds(List<Integer> ids);
     
 }

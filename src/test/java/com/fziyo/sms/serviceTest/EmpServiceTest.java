@@ -7,11 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
-
 import java.time.LocalDateTime;
-
 import static org.mockito.Mockito.verify;
+
 @SpringBootTest
 public class EmpServiceTest {
     @Autowired
@@ -19,7 +17,7 @@ public class EmpServiceTest {
     @MockitoBean
     private EmpMapper empMapper;
     @Test
-    public void insertEmp() {
+    public void insertTest() {
         Emp emp = new Emp();
         emp.setEmpNo("f84382");
         emp.setGender(1);

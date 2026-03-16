@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @SpringBootTest
@@ -21,5 +23,10 @@ public class RoleMapperTest {
         role.setCreateTime(LocalDateTime.now());
         role.setUpdateTime(LocalDateTime.now());
         roleMapper.insert(role);
+    }
+    @Test
+    public void deleteByIds() {
+        List<Integer> ids = List.of(2);
+        roleMapper.deleteByIds(ids);
     }
 }
