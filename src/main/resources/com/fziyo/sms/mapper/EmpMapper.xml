@@ -3,7 +3,42 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fziyo.sms.mapper.EmpMapper">
+    <delete id="deleteByIds">
+        delete from emp where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 
+    <select id="getById" resultType="com.fziyo.sms.model.vo.EmpVo">
+        select
+            e.*, t.name teamName, r.name roleName
+            from emp e
+            left join team t on e.team_id = t.id
+            left join role r on e.role_id = r.id
+        where e.id = #{id}
+    </select>
+
+    <select id="list" resultType="com.fziyo.sms.model.vo.EmpVo">
+        select
+        e.*, t.name teamName, r.name roleName
+        from emp e
+        left join team t on e.team_id = t.id
+        left join role r on e.role_id = r.id
+    </select>
+
+    <update id="update">
+        update emp
+        <set>
+            <if test="empNo != null and empNo != ''">emp_no = #{empNo},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="teamId != null">team_id = #{teamId},</if>
+            <if test="roleId != null">role_id = #{roleId},</if>
+            <if test="updateTime != null">update_time = #{updateTime}</if>
+        </set>
+        where id = #{id}
+    </update>
 
 
 </mapper>

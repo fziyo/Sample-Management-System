@@ -1,7 +1,7 @@
 package com.fziyo.sms.serviceTest;
 
 import com.fziyo.sms.mapper.RoleMapper;
-import com.fziyo.sms.pojo.Role;
+import com.fziyo.sms.model.entity.Role;
 import com.fziyo.sms.service.RoleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
