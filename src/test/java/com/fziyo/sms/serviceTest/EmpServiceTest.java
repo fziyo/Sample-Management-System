@@ -24,7 +24,7 @@ public class EmpServiceTest {
     @MockitoBean
     private EmpMapper empMapper;
     @Test
-    public void insertTest() {
+    public void testSave() {
         EmpCreateDto empCreateDto = new EmpCreateDto();
         empCreateDto.setEmpNo("f84382");
         empCreateDto.setGender(1);
