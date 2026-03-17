@@ -18,7 +18,7 @@ public class EmpMapperTest {
     private EmpMapper empMapper;
 
     @Test
-    void testInertEmp() {
+    void testInert() {
         Emp emp = new Emp();
         emp.setEmpNo("f1234");
         emp.setGender(1);
@@ -27,13 +27,13 @@ public class EmpMapperTest {
         emp.setRoleId(1);
         emp.setCreateTime(LocalDateTime.now());
         emp.setUpdateTime(LocalDateTime.now());
-        empMapper.insert(emp);
+        assert(empMapper.insert(emp) == 1);
     }
 
     @Test
     void testDeleteByIds() {
         List<Integer> ids = List.of(1);
-        empMapper.deleteByIds(ids);
+        assert(empMapper.deleteByIds(ids) == 1);
     }
     
     @Test
@@ -46,7 +46,7 @@ public class EmpMapperTest {
         emp.setTeamId(2);
         emp.setRoleId(2);
         emp.setUpdateTime(LocalDateTime.now());
-        empMapper.update(emp);
+        assert(empMapper.update(emp) == 0);
     }
     
     @Test
