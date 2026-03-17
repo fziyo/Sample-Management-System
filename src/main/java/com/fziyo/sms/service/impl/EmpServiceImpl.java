@@ -45,7 +45,9 @@ public class EmpServiceImpl implements EmpService {
     
     @Override
     public EmpVo getById(Integer id) {
-        return empMapper.getById(id);
+        EmpVo empVo = new EmpVo();
+        BeanUtils.copyProperties(empMapper.getById(id), empVo);
+        return empVo;
     }
     
     @Override

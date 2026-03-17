@@ -10,7 +10,7 @@
         </foreach>
     </delete>
 
-    <select id="getById" resultType="com.fziyo.sms.model.vo.EmpVo">
+    <select id="getById" resultType="com.fziyo.sms.model.entity.Emp">
         select
             e.*, t.name teamName, r.name roleName
             from emp e
@@ -19,7 +19,7 @@
         where e.id = #{id}
     </select>
 
-    <select id="list" resultType="com.fziyo.sms.model.vo.EmpVo">
+    <select id="list" resultType="com.fziyo.sms.model.entity.Emp">
         select
         e.*, t.name teamName, r.name roleName
         from emp e

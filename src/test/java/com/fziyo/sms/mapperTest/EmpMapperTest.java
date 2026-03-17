@@ -51,9 +51,9 @@ public class EmpMapperTest {
     
     @Test
     void testGetById() {
-        EmpVo empVo = empMapper.getById(4);
-        if (empVo != null) {
-            log.info(empVo.toString());
+        Emp emp = empMapper.getById(4);
+        if (emp != null) {
+            log.info(emp.toString());
         }
 
     }

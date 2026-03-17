@@ -23,6 +23,7 @@ public class TeamMapperTest {
         team.setName("HR");
         teamMapper.insert(team);
     }
+    
     @Test
     void testDeleteById() {
         List<Integer> ids = List.of(1,2,3);
@@ -31,7 +32,7 @@ public class TeamMapperTest {
     
     @Test
     void testList() {
-        List<TeamVo> teamVos = teamMapper.list();
-        teamVos.forEach(teamVo -> log.info(teamVo.toString()));
+        List<Team> teamVos = teamMapper.list();
+        teamVos.forEach(team -> log.info(team.toString()));
     }
 }

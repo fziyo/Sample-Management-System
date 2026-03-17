@@ -18,7 +18,7 @@ public interface EmpMapper {
     
     int update(Emp emp);
     
-    EmpVo getById(Integer id);
+    Emp getById(Integer id);
     
     List<EmpVo> list();
     

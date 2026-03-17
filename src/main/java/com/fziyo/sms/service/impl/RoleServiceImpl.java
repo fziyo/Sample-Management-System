@@ -38,12 +38,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<RoleVo> getAll() {
         List<Role> roles = roleMapper.list();
-        List<RoleVo> roleVoList = new ArrayList<>();
-        for (Role role : roles) {
+        return roles.stream().map(role -> {
             RoleVo roleVo = new RoleVo();
             BeanUtils.copyProperties(role,roleVo);
-            roleVoList.add(roleVo);
-        }
-        return roleVoList;
+            return roleVo;
+        }).toList();
     }
 }

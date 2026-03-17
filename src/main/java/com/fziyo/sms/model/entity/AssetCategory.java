@@ -1,7 +1,10 @@
 package com.fziyo.sms.model.entity;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class AssetCategory {
     private Integer id;
     private String name;

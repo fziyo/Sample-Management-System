@@ -1,7 +1,9 @@
 package com.fziyo.sms.model.vo;
 
-import java.time.LocalDateTime;
+import lombok.Data;
 
+import java.time.LocalDateTime;
+@Data
 public class AssetCategoryVo {
     private Integer id;
     private String name;
