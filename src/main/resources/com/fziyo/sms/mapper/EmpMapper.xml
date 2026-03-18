@@ -35,7 +35,6 @@
             <if test="gender != null">gender = #{gender},</if>
             <if test="teamId != null">team_id = #{teamId},</if>
             <if test="roleId != null">role_id = #{roleId},</if>
-            <if test="updateTime != null">update_time = #{updateTime}</if>
         </set>
         where id = #{id}
     </update>

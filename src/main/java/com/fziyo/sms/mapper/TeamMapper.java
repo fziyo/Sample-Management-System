@@ -11,8 +11,8 @@ import java.util.List;
 
 @Mapper
 public interface TeamMapper {
-    @Insert("Insert into team(name, create_time, update_time) " +
-                "values (#{name}, #{createTime}, #{updateTime})")
+    @Insert("Insert into team(name) " +
+                "values (#{name})")
     int insert(Team team);
     
     int deleteByIds(List<Integer> ids);

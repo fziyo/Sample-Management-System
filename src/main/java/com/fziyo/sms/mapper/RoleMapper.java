@@ -12,8 +12,8 @@ import java.util.List;
 public interface RoleMapper {
     
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    @Insert("Insert into role(name, create_time, update_time) " +
-                    "values(#{name}, #{createTime}, #{updateTime})")
+    @Insert("Insert into role(name) " +
+                    "values(#{name})")
     int insert(Role role);
     
     int deleteByIds(List<Integer> ids);

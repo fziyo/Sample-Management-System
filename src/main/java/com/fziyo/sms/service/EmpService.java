@@ -15,7 +15,7 @@ public interface EmpService {
     
     void update(EmpUpdateDto empupdatedto);
     
-    EmpVo getById(Integer id);
+    EmpVo getById(int id);
 
     List<EmpVo> getAll();
 }

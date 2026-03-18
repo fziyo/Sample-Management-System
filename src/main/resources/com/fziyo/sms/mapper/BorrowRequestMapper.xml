@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fziyo.sms.mapper.BorrowRequestMapper">
+    <insert id="insert">
+        insert into borrow_request(asset_id, borrow_id, start_date, end_date, status,
+        approver_id, approve_time) values(#{assetId}, #{borrowId}, #{startDate}, #{endDate}, #{status})
+    </insert>
+    <delete id="deleteByIds">
+        delete from team where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

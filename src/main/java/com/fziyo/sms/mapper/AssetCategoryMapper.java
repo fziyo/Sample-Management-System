@@ -9,8 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface AssetCategoryMapper {
-    @Insert("Insert into asset_category(name, create_time, update_time) " +
-                "values (#{name}, #{createTime}, #{updateTime})")
+    @Insert("Insert into asset_category(name) " +
+                "values (#{name})")
     int insert(AssetCategory assetCategory);
     
     int deleteByIds(List<Integer> ids);

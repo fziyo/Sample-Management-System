@@ -60,7 +60,7 @@ public class EmpMapperTest {
     
     @Test
     void testList() {
-        List<EmpVo> empVos = empMapper.list();
-        log.info(empVos.toString());
+        List<Emp> emps = empMapper.list();
+        log.info(emps.toString());
     }
 }

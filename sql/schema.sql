@@ -5,7 +5,7 @@ create table emp (
                       gender tinyint unsigned not null default 0 comment '0=unknown 1=male 2=female',
                       team_id int unsigned not null comment 'business unit',
                       role_id int unsigned not null,
-                      create_time datetime not null default current_timestamp,
+                      create_time datetime default current_timestamp,
                       update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
@@ -25,7 +25,7 @@ create table team (
 
 create table asset (
                                id int unsigned primary key auto_increment,
-                               asset_code VARCHAR(100) unique not null comment '00RY',
+                               asset_code VARCHAR(100) unique not null unique comment '00RY',
                                name varchar(50) not null comment 'device name',
                                model varchar(50) not null comment 'ELA-B19',
 

@@ -52,6 +52,11 @@ public class EmpServiceImpl implements EmpService {
     
     @Override
     public List<EmpVo> getAll() {
-        return empMapper.list();
+        List<Emp> emps = empMapper.list();
+        return emps.stream().map(emp -> {
+            EmpVo empVo = new EmpVo();
+            BeanUtils.copyProperties(emp, empVo);
+            return empVo;
+        }).toList();
     }
 }

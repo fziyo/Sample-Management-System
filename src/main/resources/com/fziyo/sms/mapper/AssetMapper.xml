@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fziyo.sms.mapper.AssetMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into asset(asset_code, name, model, category_id, team_id, owner_id, sn, mac_addr, release_year,
+        asset_condition, commercial_status, is_active, status, current_user_id, location, description)
+        values(#{assetCode}, #{name}, #{model}, #{categoryId}, #{teamId}, #{ownerId}, #{sn}, #{macAddr}, #{releaseYear},
+        #{assetCondition}, #{commercialStatus}, #{isActive}, #{status}, #{currentUserId}, #{location}, #{description})
+    </insert>
+
+    <delete id="deleteByIds">
+        delete from asset where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="update">
+        update asset
+        <set>
+            <if test="assetCode != null"> asset_Code = #{assetCode},</if>
+            <if test="name != null"> name = #{name},</if>
+            <if test="model != null"> model = #{model},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="teamId != null">team_id = #{teamId},</if>
+            <if test="ownerId != null">owner_id = #{ownerId},</if>
+            <if test="sn != null and sn != ''">sn = #{sn},</if>
+            <if test="macAddr != null and macAddr != ''">mac_addr = #{macAddr},</if>
+            <if test="releaseYear != null">release_year = #{releaseYear},</if>
+            <if test="assetCondition != null">asset_condition = #{assetCondition},</if>
+            <if test="commercialStatus != null">commercial_status = #{commercialStatus},</if>
+            <if test="isActive != null">is_active = #{isActive},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="currentUserId != null">current_user_id = #{currentUserId},</if>
+            <if test="location != null and location != ''">location = #{location},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+<!--            update_time = #{now}-->
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
