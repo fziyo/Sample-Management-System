@@ -13,4 +13,6 @@ public class BorrowRequestVo {
     private Integer status;
     private Integer approverId;
     private LocalDateTime approveTime;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
 }

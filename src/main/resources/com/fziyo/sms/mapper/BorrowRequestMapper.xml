@@ -14,4 +14,16 @@
         </foreach>
     </delete>
 
+    <update id="update">
+        update borrow_request
+        <set>
+            <if test="startTime != null"> start_time = #{startTime},</if>
+            <if test="endTime != null"> end_time = #{endTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="approverId != null">approver_id = #{approverId},</if>
+            <if test="approveTime != null">approve_time = #{approveTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

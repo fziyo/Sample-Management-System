@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class BorrowRequest {
     private Integer id;
     private Integer assetId;
-    private Integer borrowId;
+    private Integer borrowerId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer status;
