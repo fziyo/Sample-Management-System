@@ -37,9 +37,8 @@ public class TeamServiceTest {
     
     @Test
     void testDelete() {
-        List<Integer> ids = List.of(1,2,3);
-        teamService.delete(ids);
-        verify(teamMapper).deleteByIds(ids);
+        teamService.deleteById(1);
+        verify(teamMapper).deleteById(1);
     }
     
     @Test

@@ -2,18 +2,20 @@ package com.fziyo.sms.service;
 
 import com.fziyo.sms.model.dto.AssetCreateDto;
 import com.fziyo.sms.model.dto.AssetUpdateDto;
+import com.fziyo.sms.model.dto.BorrowRequestCreateDto;
+import com.fziyo.sms.model.dto.BorrowRequestUpdateDto;
+import com.fziyo.sms.model.entity.BorrowRequest;
 import com.fziyo.sms.model.vo.AssetVo;
+import com.fziyo.sms.model.vo.BorrowRequestVo;
 
 import java.util.List;
 
 public interface BorrowRequestService {
-    void save(AssetCreateDto assetCreateDto);
+    void save(BorrowRequestCreateDto borrowRequestCreateDto);
     
-    void deleteByIds(List<Integer> ids);
+    void update(BorrowRequestUpdateDto borrowRequestUpdateDto);
     
-    void update(AssetUpdateDto assetUpdateDto);
+    BorrowRequestVo getById(Integer id);
     
-    AssetVo getById(int id);
-    
-    List<AssetVo> getAll();
+    List<BorrowRequestVo> getAll();
 }

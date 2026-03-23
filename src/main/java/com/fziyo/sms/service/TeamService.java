@@ -8,7 +8,7 @@ import java.util.List;
 public interface TeamService {
     void save(TeamCreateDto teamCreateDto);
     
-    void delete(List<Integer> ids);
+    void deleteById(Integer id);
     
     List<TeamVo> getAll();
     

@@ -10,7 +10,7 @@ public interface RoleService {
     
     void save(RoleCreateDto rolecreateDto);
     
-    void delete(List<Integer> ids);
+    void deleteById(Integer id);
     
     List<RoleVo> getAll();
 }

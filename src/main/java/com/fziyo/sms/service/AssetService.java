@@ -13,7 +13,7 @@ public interface AssetService {
     
     void update(AssetUpdateDto assetUpdateDto);
     
-    AssetVo getById(int id);
+    AssetVo getById(Integer id);
     
     List<AssetVo> getAll();
 }

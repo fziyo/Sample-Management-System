@@ -19,6 +19,14 @@
         where e.id = #{id}
     </select>
 
+    <select id="countByTeamId" resultType="java.lang.Integer">
+        select count(*) from emp where team_id = #{id}
+    </select>
+
+    <select id="countByRoleId" resultType="java.lang.Integer">
+        select count(*) from emp where role_id = #{id}
+    </select>
+
     <select id="list" resultType="com.fziyo.sms.model.entity.Emp">
         select
         e.*, t.name teamName, r.name roleName

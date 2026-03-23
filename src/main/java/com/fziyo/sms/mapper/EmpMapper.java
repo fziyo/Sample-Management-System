@@ -18,7 +18,11 @@ public interface EmpMapper {
     
     int update(Emp emp);
     
-    Emp getById(int id);
+    Emp getById(Integer id);
+    
+    Integer countByTeamId(Integer id);
+    
+    Integer countByRoleId(Integer id);
     
     List<Emp> list();
     

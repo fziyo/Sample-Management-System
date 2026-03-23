@@ -26,8 +26,7 @@ public class TeamMapperTest {
     
     @Test
     void testDeleteById() {
-        List<Integer> ids = List.of(1,2,3);
-        teamMapper.deleteByIds(ids);
+        teamMapper.deleteById(1);
     }
     
     @Test

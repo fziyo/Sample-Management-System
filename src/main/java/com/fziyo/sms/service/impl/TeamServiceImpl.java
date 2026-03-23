@@ -1,5 +1,7 @@
 package com.fziyo.sms.service.impl;
 
+import com.fziyo.sms.common.exception.BusinessException;
+import com.fziyo.sms.mapper.EmpMapper;
 import com.fziyo.sms.mapper.TeamMapper;
 import com.fziyo.sms.model.dto.TeamCreateDto;
 import com.fziyo.sms.model.entity.Team;
@@ -17,6 +19,8 @@ public class TeamServiceImpl implements TeamService {
     
     @Autowired
     private TeamMapper teamMapper;
+    @Autowired
+    private EmpMapper empMapper;
     
     @Override
     public void save(TeamCreateDto teamCreateDto) {
@@ -26,8 +30,12 @@ public class TeamServiceImpl implements TeamService {
     }
     
     @Override
-    public void delete(List<Integer> ids) {
-        teamMapper.deleteByIds(ids);
+    public void deleteById(Integer id) {
+        Integer count = empMapper.countByTeamId(id);
+        if (count > 0) {
+            throw new BusinessException("More than 1 emp, cannot delete team");
+        }
+        teamMapper.deleteById(id);
     }
     
     @Override

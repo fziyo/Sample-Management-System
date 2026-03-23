@@ -19,7 +19,7 @@ public interface AssetMapper {
     List<Asset> list();
     
     @Select("Select * from asset where id = #{id}")
-    Asset getById(int id);
+    Asset getById(Integer id);
     
     int update(Asset asset);
 

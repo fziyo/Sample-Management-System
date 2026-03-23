@@ -16,7 +16,7 @@ public interface RoleMapper {
                     "values(#{name})")
     int insert(Role role);
     
-    int deleteByIds(List<Integer> ids);
+    int deleteById(Integer id);
     
     @Select("Select * from role")
     List<Role> list();

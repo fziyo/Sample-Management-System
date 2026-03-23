@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface  BorrowRequestMapper {
 
-    int insert(BorrowRequestCreateDto borrowRequestCreateDto);
+    int insert(BorrowRequest borrowRequest);
     
     @Select("Select * from borrow_request where id = #{id}")
     BorrowRequest getById(int id);

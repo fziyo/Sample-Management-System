@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class EmpServiceTest {
@@ -60,7 +61,13 @@ public class EmpServiceTest {
     
     @Test
     void testGetById() {
+        Emp emp = new Emp();
+        emp.setId(1);
+        
+        when(empMapper.getById(1)).thenReturn(emp);
+        
         empService.getById(1);
+        
         verify(empMapper).getById(1);
     }
     

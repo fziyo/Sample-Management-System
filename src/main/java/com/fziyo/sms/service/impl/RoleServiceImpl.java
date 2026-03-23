@@ -1,5 +1,7 @@
 package com.fziyo.sms.service.impl;
 
+import com.fziyo.sms.common.exception.BusinessException;
+import com.fziyo.sms.mapper.EmpMapper;
 import com.fziyo.sms.mapper.RoleMapper;
 import com.fziyo.sms.model.dto.RoleCreateDto;
 import com.fziyo.sms.model.entity.Role;
@@ -19,6 +21,8 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private EmpMapper empMapper;
     
     @Override
     public void save(RoleCreateDto rolecreateDto) {
@@ -26,18 +30,25 @@ public class RoleServiceImpl implements RoleService {
         BeanUtils.copyProperties(rolecreateDto,role);
         role.setCreateTime(LocalDateTime.now());
         role.setUpdateTime(LocalDateTime.now());
-        roleMapper.insert(role);
+        if (roleMapper.insert(role) == 0) {
+            throw new BusinessException("Fail to insert role");
+        }
     }
     
     @Override
-    public void delete(List<Integer> ids) {
-        
-        roleMapper.deleteByIds(ids);
+    public void deleteById(Integer id) {
+        if (empMapper.countByRoleId(id) > 0) {
+            throw new BusinessException("Emps exist, cannot delete role");
+        }
+        roleMapper.deleteById(id);
     }
     
     @Override
     public List<RoleVo> getAll() {
         List<Role> roles = roleMapper.list();
+        if (roles == null || roles.isEmpty()) {
+            throw new BusinessException("Fail to get roles");
+        }
         return roles.stream().map(role -> {
             RoleVo roleVo = new RoleVo();
             BeanUtils.copyProperties(role,roleVo);

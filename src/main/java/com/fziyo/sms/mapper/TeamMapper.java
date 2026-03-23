@@ -15,7 +15,7 @@ public interface TeamMapper {
                 "values (#{name})")
     int insert(Team team);
     
-    int deleteByIds(List<Integer> ids);
+    int deleteById(Integer id);
     
     @Select("Select * from team")
     List<Team> list();

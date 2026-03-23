@@ -45,9 +45,8 @@ public class RoleServiceTest {
     
     @Test
     void testDelete() {
-        List<Integer> ids = List.of(1,2,3);
-        roleService.delete(ids);
-        verify(roleMapper).deleteByIds(ids);
+        roleService.deleteById(1);
+        verify(roleMapper).deleteById(1);
     
     }
     

@@ -1,5 +1,6 @@
 package com.fziyo.sms.service.impl;
 
+import com.fziyo.sms.common.exception.BusinessException;
 import com.fziyo.sms.mapper.AssetMapper;
 import com.fziyo.sms.model.dto.AssetCreateDto;
 import com.fziyo.sms.model.dto.AssetUpdateDto;
@@ -20,24 +21,34 @@ public class AssetServiceImpl implements AssetService {
     public void save(AssetCreateDto assetCreateDto) {
         Asset asset = new Asset();
         BeanUtils.copyProperties(assetCreateDto, asset);
-        assetMapper.insert(asset);
+        if (assetMapper.insert(asset) == 0) {
+            throw new BusinessException("Failed to insert asset");
+        }
     }
     
     @Override
     public void deleteByIds(List<Integer> ids) {
-        assetMapper.deleteByIds(ids);
+        
+        if (assetMapper.deleteByIds(ids) == 0 ) {
+            throw new BusinessException("Failed to delete asset");
+        }
     }
     
     @Override
     public void update(AssetUpdateDto assetUpdateDto) {
         Asset asset = new Asset();
         BeanUtils.copyProperties(assetUpdateDto, asset);
-        assetMapper.update(asset);
+        if (assetMapper.update(asset) == 0) {
+            throw new BusinessException("Failed to update asset");
+        }
     }
     
     @Override
     public AssetVo getById(Integer id) {
         Asset asset = assetMapper.getById(id);
+        if (asset == null) {
+            throw new BusinessException("Asset not found");
+        }
         AssetVo assetVo = new AssetVo();
         BeanUtils.copyProperties(asset, assetVo);
         return assetVo;
@@ -45,6 +56,14 @@ public class AssetServiceImpl implements AssetService {
     
     @Override
     public List<AssetVo> getAll() {
-        return List.of();
+        List<Asset> assets = assetMapper.list();
+        if (assets == null || assets.isEmpty()) {
+            throw new BusinessException("Assets not found");
+        }
+        return assets.stream().map(asset -> {
+            AssetVo assetVo = new AssetVo();
+            BeanUtils.copyProperties(asset, assetVo);
+            return assetVo;
+        }).toList();
     }
 }
