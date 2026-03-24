@@ -17,6 +17,13 @@
         </foreach>
     </delete>
 
+    <select id="countByCategoryIds" resultType="java.lang.Integer">
+        select count(*) from asset where id
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
     <update id="update">
         update asset
         <set>

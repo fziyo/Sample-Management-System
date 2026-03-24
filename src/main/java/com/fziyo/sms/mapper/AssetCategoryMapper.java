@@ -13,7 +13,7 @@ public interface AssetCategoryMapper {
                 "values (#{name})")
     int insert(AssetCategory assetCategory);
     
-    int deleteByIds(List<Integer> ids);
+    int deleteById(Integer id);
     
     @Select("Select * from asset_category")
     List<AssetCategory> list();

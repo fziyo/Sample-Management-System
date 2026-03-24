@@ -6,12 +6,14 @@ import com.fziyo.sms.model.dto.BorrowRequestUpdateDto;
 import com.fziyo.sms.model.entity.BorrowRequest;
 import com.fziyo.sms.model.vo.BorrowRequestVo;
 import com.fziyo.sms.service.BorrowRequestService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class BorrowRequestServiceImpl implements BorrowRequestService {
     @Autowired
@@ -22,8 +24,9 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
         BorrowRequest borrowRequest = new BorrowRequest();
         BeanUtils.copyProperties(borrowRequestCreateDto,borrowRequest);
         if (borrowRequestMapper.insert(borrowRequest) == 0) {
-            throw new BusinessException("Failed to insert BorrowRequest");
+            throw new BusinessException("Failed to save BorrowRequest");
         }
+        log.info("Save BorrowRequest: {}", borrowRequest);
     }
     
     @Override
@@ -33,6 +36,7 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
         if (borrowRequestMapper.update(borrowRequest) == 0) {
             throw new BusinessException("Update failed");
         }
+        log.info("Update BorrowRequest: {}", borrowRequest);
     }
     
     @Override
@@ -43,6 +47,7 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
         }
         BorrowRequestVo borrowRequestVo = new BorrowRequestVo();
         BeanUtils.copyProperties(borrowRequest,borrowRequestVo);
+        log.info("Get BorrowRequest: {}", borrowRequestVo);
         return borrowRequestVo;
     }
     
@@ -52,6 +57,7 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
         if (borrowRequests == null || borrowRequests.isEmpty()) {
             throw new BusinessException("No BorrowRequest found");
         }
+        log.info("Get all BorrowRequests size: {}", borrowRequests.size());
         return borrowRequests.stream().map(borrowRequest -> {
             BorrowRequestVo borrowRequestVo = new BorrowRequestVo();
             BeanUtils.copyProperties(borrowRequest,borrowRequestVo);

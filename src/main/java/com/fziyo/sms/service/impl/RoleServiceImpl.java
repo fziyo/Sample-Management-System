@@ -33,6 +33,7 @@ public class RoleServiceImpl implements RoleService {
         if (roleMapper.insert(role) == 0) {
             throw new BusinessException("Fail to insert role");
         }
+        log.info("Save role: {}", role);
     }
     
     @Override
@@ -41,6 +42,7 @@ public class RoleServiceImpl implements RoleService {
             throw new BusinessException("Emps exist, cannot delete role");
         }
         roleMapper.deleteById(id);
+        log.info("Delete role: {}", id);
     }
     
     @Override
@@ -49,6 +51,7 @@ public class RoleServiceImpl implements RoleService {
         if (roles == null || roles.isEmpty()) {
             throw new BusinessException("Fail to get roles");
         }
+        log.info("Get roles size: {}", roles.size());
         return roles.stream().map(role -> {
             RoleVo roleVo = new RoleVo();
             BeanUtils.copyProperties(role,roleVo);

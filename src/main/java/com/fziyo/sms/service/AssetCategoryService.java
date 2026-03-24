@@ -8,7 +8,7 @@ import java.util.List;
 public interface AssetCategoryService {
     void save(AssetCategoryCreateDto assetCategoryDto);
     
-    void delete(List<Integer> ids);
+    void deleteById(Integer id);
     
     List<AssetCategoryVo> getAll();
 }

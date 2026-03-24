@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,23 +26,29 @@ public class EmpServiceImpl implements EmpService {
     public void save(EmpCreateDto empcreatedto) {
         Emp emp = new Emp();
         BeanUtils.copyProperties(empcreatedto, emp);
-   
-        emp.setCreateTime(LocalDateTime.now());
-        emp.setUpdateTime(LocalDateTime.now());
-        empMapper.insert(emp);
-        log.info("Added employee, emp: {}", emp);
+        if (empMapper.insert(emp) == 0) {
+            throw new BusinessException("Failed to save emp");
+        }
+        log.info("Saved employee, emp: {}", emp);
     }
     
+    @Transactional
     @Override
     public void deleteByIds(List<Integer> ids) {
-        empMapper.deleteByIds(ids);
+        if (empMapper.deleteByIds(ids) != ids.size()) {
+            throw new BusinessException("Failed to delete employees");
+        }
+        log.info("Deleted employees, ids: {}", ids);
     }
     
     @Override
     public void update(EmpUpdateDto empUpdateDto) {
         Emp emp = new Emp();
         BeanUtils.copyProperties(empUpdateDto, emp);
-        empMapper.update(emp);
+        if (empMapper.update(emp) == 0) {
+            throw new BusinessException("Failed to update employees");
+        }
+        log.info("Updated employee, emp: {}", emp);
     }
     
     @Override
@@ -52,6 +59,7 @@ public class EmpServiceImpl implements EmpService {
         }
         EmpVo empVo = new EmpVo();
         BeanUtils.copyProperties(emp,  empVo);
+        log.info("Get employee, emp: {}", empVo);
         return empVo;
     }
     
@@ -61,6 +69,7 @@ public class EmpServiceImpl implements EmpService {
         if (emps == null) {
             throw new BusinessException("Users not found");
         }
+        log.info("Get employees, emps size: {}", emps.size());
         return emps.stream().map(emp -> {
             EmpVo empVo = new EmpVo();
             BeanUtils.copyProperties(emp, empVo);
