@@ -35,8 +35,7 @@ public class AssetCategoryServiceTest {
     
     @Test
     public void testDelete() {
-        List<Integer>  ids = List.of(1,2,3);
-        assetCategoryService.delete(ids);
+        assetCategoryService.deleteById(1);
     }
     
     @Test

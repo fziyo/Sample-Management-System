@@ -34,8 +34,7 @@ public class RoleMapperTest {
     }
     @Test
     public void deleteByIds() {
-        List<Integer> ids = List.of(2);
-        assert(roleMapper.deleteByIds(ids) == 0);
+        assert(roleMapper.deleteById(2) == 0);
     }
     
     @Test

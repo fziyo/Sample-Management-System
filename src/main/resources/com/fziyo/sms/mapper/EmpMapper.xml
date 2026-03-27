@@ -38,7 +38,6 @@
     <update id="update">
         update emp
         <set>
-            <if test="empNo != null and empNo != ''">emp_no = #{empNo},</if>
             <if test="name != null and name != ''">name = #{name},</if>
             <if test="gender != null">gender = #{gender},</if>
             <if test="teamId != null">team_id = #{teamId},</if>

@@ -10,3 +10,4 @@ public class EmpUpdateDto {
     private Integer teamId;
     private Integer roleId;
 }
+// not allowed to change empNo

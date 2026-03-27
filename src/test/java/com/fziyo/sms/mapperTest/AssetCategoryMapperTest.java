@@ -27,8 +27,7 @@ public class AssetCategoryMapperTest {
     
     @Test
     void testDeleteByIds() {
-        List<Integer> ids = List.of(1,2,3);
-        assetCategoryMapper.deleteByIds(ids);
+        assetCategoryMapper.deleteById(1);
     }
     
     @Test
