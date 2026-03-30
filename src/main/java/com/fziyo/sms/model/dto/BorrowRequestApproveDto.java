@@ -1,13 +1,13 @@
-package com.fziyo.sms.model.vo;
+package com.fziyo.sms.model.dto;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 @Data
-public class BorrowRequestVo {
+//todo: admin
+//todo: role-based access control
+public class BorrowRequestApproveDto {
     private Integer id;
-    private Integer assetId;
-    private Integer borrowerId;
     private Integer status;
     
     private Integer requestApproverId;
@@ -18,7 +18,4 @@ public class BorrowRequestVo {
     
     private Integer returnApproverId;
     private LocalDateTime returnApproveTime;
-    
-    private LocalDateTime createdTime;
-    private LocalDateTime updatedTime;
 }

@@ -33,7 +33,7 @@ public class EmpController {
     }
     
     @DeleteMapping
-    public Result<Void> delete(@RequestParam List<Integer> ids) {
+    public Result<Void> deleteBatch(@RequestParam List<Integer> ids) {
         empService.deleteByIds(ids);
         log.info("Deleted employees success, size: {}", ids.size());
         return Result.success();
@@ -47,7 +47,7 @@ public class EmpController {
     }
     
     @GetMapping("/{id}")
-    public Result<EmpVo> getEmpById(@PathVariable Integer id) {
+    public Result<EmpVo> getInfo(@PathVariable Integer id) {
         EmpVo empVo = empService.getById(id);
         log.info("Get employee success, id: {}", id);
         return Result.success(empVo);

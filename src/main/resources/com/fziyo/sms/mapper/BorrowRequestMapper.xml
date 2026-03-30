@@ -3,10 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fziyo.sms.mapper.BorrowRequestMapper">
+<!--    <insert id="insert">-->
+<!--        insert into borrow_request(asset_id, borrower_id, status, request_approver_id,request_approve_time-->
+<!--        borrow_start_time, return_request_time, return_approver_id, return_approve_time)-->
+<!--        values(#{assetId}, #{borrowerId}, #{status}, #{requestApproverId}, #{requestApproveTime}, #{borrowStartTime},-->
+<!--        #{returnRequestTime}, #{returnApproverId}, #{returnApproveTime})-->
+<!--    </insert>-->
+
     <insert id="insert">
-        insert into borrow_request(asset_id, borrow_id, start_date, end_date, status,
-        approver_id, approve_time) values(#{assetId}, #{borrowId}, #{startDate}, #{endDate}, #{status})
+        insert into borrow_request(asset_id, borrower_id, status)
+        values(#{assetId}, #{borrowerId}, 0)
     </insert>
+
     <delete id="deleteByIds">
         delete from team where id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
@@ -17,11 +25,14 @@
     <update id="update">
         update borrow_request
         <set>
-            <if test="startTime != null"> start_time = #{startTime},</if>
-            <if test="endTime != null"> end_time = #{endTime},</if>
             <if test="status != null">status = #{status},</if>
-            <if test="approverId != null">approver_id = #{approverId},</if>
-            <if test="approveTime != null">approve_time = #{approveTime},</if>
+            <if test="requestApproverId != null"> request_approver_id = #{requestApproverId},</if>
+            <if test="requestApproveTime != null"> request_approve_time = #{requestApproveTime},</if>
+
+            <if test="borrowStartTime != null">borrow_start_time = #{borrowStartTime},</if>
+            <if test="returnRequestTime != null">return_request_time = #{returnRequestTime},</if>
+            <if test="returnApproverId != null">return_approver_id = #{returnApproverId}</if>
+            <if test="returnApproveTime != null">return_approve_time = #{returnApproveTime}</if>
         </set>
         where id = #{id}
     </update>

@@ -5,12 +5,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
+//todo: user request
+//todo: role-based access control
 public class BorrowRequestCreateDto {
     private Integer assetId;
-    private Integer borrowerId;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private Integer status;
-    private Integer approverId;
-    private LocalDateTime approveTime;
+    private Integer borrowerId; //todo: handled in service from login info
 }

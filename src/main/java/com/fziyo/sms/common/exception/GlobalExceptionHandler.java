@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateKeyException.class)
     public Result<?> handleDuplicateKeyException(DuplicateKeyException e) {
         log.error("Duplicate Key Error {}", e.getMessage());
-        return Result.error("Data already exists");
+        return Result.error("Duplicate Key Error");
     }
     
     @ExceptionHandler(Exception.class)

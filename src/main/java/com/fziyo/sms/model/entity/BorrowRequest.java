@@ -9,9 +9,17 @@ public class BorrowRequest {
     private Integer id;
     private Integer assetId;
     private Integer borrowerId;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private Integer status;
-    private Integer approverId;
-    private LocalDateTime approveTime;
+    
+    private Integer requestApproverId;
+    private LocalDateTime requestApproveTime;
+    
+    private LocalDateTime borrowStartTime;
+    private LocalDateTime returnRequestTime;
+    
+    private Integer returnApproverId;
+    private LocalDateTime returnApproveTime;
+    
+    private LocalDateTime createdTime;
+    private LocalDateTime updatedTime;
 }

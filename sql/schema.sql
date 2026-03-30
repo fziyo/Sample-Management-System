@@ -25,7 +25,7 @@ create table team (
 
 create table asset (
                                id int unsigned primary key auto_increment,
-                               asset_code VARCHAR(100) unique not null unique comment '00RY',
+                               asset_code VARCHAR(100) unique not null comment '00RY',
                                name varchar(50) not null comment 'device name',
                                model varchar(50) not null comment 'ELA-B19',
 
@@ -33,7 +33,7 @@ create table asset (
                                team_id int unsigned not null comment 'unit owned by',
                                owner_id int unsigned not null comment 'emp pk responsible person',
 
-                               sn VARCHAR(50) unique comment 'serial number',
+                               sn VARCHAR(50) unique not null comment 'serial number',
                                mac_addr VARCHAR(50) unique ,
 
                                release_year year,
@@ -64,13 +64,24 @@ create table borrow_request (
                                 id int unsigned PRIMARY KEY AUTO_INCREMENT,
                                 asset_id int unsigned not null comment 'asset pk',
                                 borrower_id int unsigned not null comment 'emp pk',
-                                start_date DATETIME not null,
-                                end_date DATETIME not null ,
-                                status tinyint unsigned not null DEFAULT 0 comment '0=PENDING  1=APPROVED  2=REJECTED 3=Cancelled',
-                                approver_id int unsigned comment 'emp pk',
-                                approve_time DATETIME ,
-                                create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                status tinyint unsigned not null DEFAULT 0 comment
+                                    '0=PENDING  1=CANCELLED 2=APPROVED  3=REJECTED 4=IN_USE 5=RETURN_PENDING
+6=FINISHED',
+
+--  approver approve request
+                                request_approver_id int unsigned comment 'emp pk',
+                                request_approve_time DATETIME comment 'time request is approved',
+--  user confirm receive
+                                borrow_start_time DATETIME comment 'time borrow is confirmed by user',
+                                return_request_time DATETIME comment 'time return is requested',
+-- approver approve return
+                                return_approver_id int unsigned,
+                                return_approve_time DATETIME comment 'admin approved return',
+-- request created/ updated
+                                create_time DATETIME DEFAULT CURRENT_TIMESTAMP comment 'time borrow is requested',
                                 update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- user request borrow(pending/cancelled)：create_time > approver confirm(approved/rejected)：request_approver_id + request_approve_time > user confirm receive device(in_use)：borrow_start_time >
+-- user request return(return_pending):return_request_time > approver confirm return(finished)：return_approver_id + return_approve_time
 

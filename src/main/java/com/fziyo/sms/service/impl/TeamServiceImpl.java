@@ -36,7 +36,7 @@ public class TeamServiceImpl implements TeamService {
     public void deleteById(Integer id) {
         Integer count = empMapper.countByTeamId(id);
         if (count > 0) {
-            throw new BusinessException("More than 1 emp, cannot delete team");
+            throw new BusinessException("Team has employees, cannot delete team");
         }
         teamMapper.deleteById(id);
         log.info("Delete team: {}", id);

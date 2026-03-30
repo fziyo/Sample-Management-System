@@ -18,7 +18,7 @@
     </delete>
 
     <select id="countByCategoryIds" resultType="java.lang.Integer">
-        select count(*) from asset where id
+        select count(*) from asset where id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
@@ -27,13 +27,11 @@
     <update id="update">
         update asset
         <set>
-            <if test="assetCode != null"> asset_Code = #{assetCode},</if>
             <if test="name != null"> name = #{name},</if>
             <if test="model != null"> model = #{model},</if>
             <if test="categoryId != null">category_id = #{categoryId},</if>
             <if test="teamId != null">team_id = #{teamId},</if>
             <if test="ownerId != null">owner_id = #{ownerId},</if>
-            <if test="sn != null and sn != ''">sn = #{sn},</if>
             <if test="macAddr != null and macAddr != ''">mac_addr = #{macAddr},</if>
             <if test="releaseYear != null">release_year = #{releaseYear},</if>
             <if test="assetCondition != null">asset_condition = #{assetCondition},</if>

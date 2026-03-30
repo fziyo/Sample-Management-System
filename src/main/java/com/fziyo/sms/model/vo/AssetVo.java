@@ -6,22 +6,23 @@ import java.time.LocalDateTime;
 import java.time.Year;
 @Data
 public class AssetVo {
+    private Integer id;
     private String assetCode;
     private String name;
     private String model;
     private Integer categoryId;
-    private Integer team_id;
-    private Integer owner_id;
+    private Integer teamId;
+    private Integer ownerId;
     private String sn;
-    private String mac_addr;
-    private Year release_year;
-    private Integer asset_condition;
-    private Integer commercial_status;
-    private Integer is_active;
+    private String macAddr;
+    private Year releaseYear;
+    private Integer assetCondition;
+    private Integer commercialStatus;
+    private Integer isActive;
     private Integer status;
-    private Integer current_user_id;
+    private Integer currentUserId;
     private String location;
     private String description;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
