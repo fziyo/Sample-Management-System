@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/borrow-request")
+@RequestMapping("/api/borrow-request")
 @RestController
 public class BorrowRequestController {
     @Autowired
@@ -29,5 +29,12 @@ public class BorrowRequestController {
         List<BorrowRequestVo> brVos = borrowRequestService.getAll();
         log.info("Get BorrowRequests successfully {}", brVos.size());
         return Result.success(brVos);
+    }
+    
+    @PostMapping("/{id}/approve-request")
+    public Result<Void> approveRequest(@PathVariable Integer id) {
+        borrowRequestService.approveRequest(id);
+        log.info("Approved BorrowRequest successfully {}", id);
+        return Result.success();
     }
 }

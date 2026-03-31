@@ -12,7 +12,7 @@
 
     <insert id="insert">
         insert into borrow_request(asset_id, borrower_id, status)
-        values(#{assetId}, #{borrowerId}, 0)
+        values(#{assetId}, #{borrowerId}, #{status})
     </insert>
 
     <delete id="deleteByIds">
@@ -22,19 +22,61 @@
         </foreach>
     </delete>
 
-    <update id="update">
+    <update id="approveRequest">
         update borrow_request
         <set>
-            <if test="status != null">status = #{status},</if>
-            <if test="requestApproverId != null"> request_approver_id = #{requestApproverId},</if>
-            <if test="requestApproveTime != null"> request_approve_time = #{requestApproveTime},</if>
+            <if test="approveStatus != null"> status = #{approveStatus},</if>
+            <if test="approverId != null"> request_approver_id = #{approverId},</if>
+            request_approve_time = now(),
 
-            <if test="borrowStartTime != null">borrow_start_time = #{borrowStartTime},</if>
-            <if test="returnRequestTime != null">return_request_time = #{returnRequestTime},</if>
-            <if test="returnApproverId != null">return_approver_id = #{returnApproverId}</if>
-            <if test="returnApproveTime != null">return_approve_time = #{returnApproveTime}</if>
+<!--            <if test="borrowStartTime != null">borrow_start_time = #{borrowStartTime},</if>-->
+<!--            <if test="returnRequestTime != null">return_request_time = #{returnRequestTime},</if>-->
         </set>
         where id = #{id}
     </update>
+
+    <update id="approveReturn">
+        update borrow_request
+        <set>
+            <if test="finishedStatus != null"> status = #{finishedStatus},</if>
+            <if test="approverId != null"> return_approver_id = #{approverId},</if>
+            return_approve_time = now(),
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="cancelRequest">
+        update borrow_request
+        <set>
+            <if test="cancelledStatus != null"> status = #{cancelledStatus},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="rejectRequest">
+        update borrow_request
+        <set>
+            <if test="rejectedStatus != null"> status = #{rejectedStatus},</if>
+            <if test="approverId != null"> request_approver_id = #{approverId},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="confirmBorrow">
+        update borrow_request
+        <set>
+            <if test="inUseStatus != null"> status = #{inUseStatus},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="requestReturn">
+        update borrow_request
+        <set>
+            <if test="returnPendingStatus != null"> status = #{returnPendingStatus},</if>
+        </set>
+        where id = #{id}
+    </update>
+
 
 </mapper>

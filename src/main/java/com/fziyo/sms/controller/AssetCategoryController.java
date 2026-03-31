@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/asset-category")
+@RequestMapping("/api/asset-category")
 @RestController
 public class AssetCategoryController {
     @Autowired

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/team")
+@RequestMapping("/api/team")
 @RestController
 public class TeamController {
     @Autowired
