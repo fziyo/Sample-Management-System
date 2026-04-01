@@ -1,5 +1,6 @@
 package com.fziyo.sms.service.impl;
 
+import com.fziyo.sms.common.constant.ResponseCode;
 import com.fziyo.sms.common.exception.BusinessException;
 import com.fziyo.sms.mapper.AssetMapper;
 import com.fziyo.sms.model.dto.AssetCreateDto;
@@ -25,7 +26,7 @@ public class AssetServiceImpl implements AssetService {
         Asset asset = new Asset();
         BeanUtils.copyProperties(assetCreateDto, asset);
         if (assetMapper.insert(asset) == 0) {
-            throw new BusinessException("Failed to save asset");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to save asset");
         }
         log.info("Saved asset: {}", asset);
     }
@@ -34,7 +35,7 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void deleteByIds(List<Integer> ids) {
         if (assetMapper.countByCategoryIds(ids) != ids.size()) {
-            throw new BusinessException("Asset does not exist, failed to delete");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Asset does not exist, failed to delete");
         }
         assetMapper.deleteByIds(ids);
         log.info("Deleted asset: {}", ids);
@@ -45,7 +46,7 @@ public class AssetServiceImpl implements AssetService {
         Asset asset = new Asset();
         BeanUtils.copyProperties(assetUpdateDto, asset);
         if (assetMapper.update(asset) == 0) {
-            throw new BusinessException("Failed to update asset");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to update asset");
         }
         log.info("Updated asset: {}", asset);
     }
@@ -54,7 +55,7 @@ public class AssetServiceImpl implements AssetService {
     public AssetVo getById(Integer id) {
         Asset asset = assetMapper.getById(id);
         if (asset == null) {
-            throw new BusinessException("Asset not found");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Asset not found");
         }
         AssetVo assetVo = new AssetVo();
         BeanUtils.copyProperties(asset, assetVo);
@@ -66,7 +67,7 @@ public class AssetServiceImpl implements AssetService {
     public List<AssetVo> getAll() {
         List<Asset> assets = assetMapper.list();
         if (assets == null || assets.isEmpty()) {
-            throw new BusinessException("Assets not found");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Assets not found");
         }
         log.info("Get all assets size: {}", assets.size());
         return assets.stream().map(asset -> {

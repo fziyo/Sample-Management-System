@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @Slf4j
 @RestControllerAdvice
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler {
     
     @ExceptionHandler(Exception.class)
     public Result<?> handleException(Exception e) {
-        log.error("Error {}", e.getMessage());
-        return Result.error(500, e.getMessage());
+        log.error("System Error", e);
+        return Result.error(500, "Internal Server Error");
     }
 }

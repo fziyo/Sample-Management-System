@@ -1,19 +1,21 @@
 package com.fziyo.sms.common.exception;
 
 
+import com.fziyo.sms.common.constant.ResponseCode;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Getter
 public class BusinessException extends RuntimeException {
-    Integer code;
+    private final Integer code;
 
-    public BusinessException(Integer code, String msg) {
-        super(msg);
-        this.code = code;
+    public BusinessException(ResponseCode responseCode) {
+        super(responseCode.getMsg());
+        this.code = responseCode.getCode();
     }
-    public BusinessException(String msg) {
+    
+    public BusinessException(ResponseCode errorCode, String msg) {
         super(msg);
-        this.code = 1;
+        this.code = errorCode.getCode();
     }
 }

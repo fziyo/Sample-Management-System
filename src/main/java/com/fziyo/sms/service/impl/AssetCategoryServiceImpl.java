@@ -1,5 +1,6 @@
 package com.fziyo.sms.service.impl;
 
+import com.fziyo.sms.common.constant.ResponseCode;
 import com.fziyo.sms.common.exception.BusinessException;
 import com.fziyo.sms.mapper.AssetCategoryMapper;
 import com.fziyo.sms.mapper.AssetMapper;
@@ -27,7 +28,7 @@ public class AssetCategoryServiceImpl implements AssetCategoryService {
         AssetCategory assetCategory = new AssetCategory();
         BeanUtils.copyProperties(assetCategoryDto, assetCategory);
         if (assetCategoryMapper.insert(assetCategory) == 0) {
-            throw new BusinessException("Failed to save AssetCategory");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to save AssetCategory");
         }
         log.info("Saved assetCategory, assetCategory: {}", assetCategory);
     }
@@ -35,10 +36,10 @@ public class AssetCategoryServiceImpl implements AssetCategoryService {
     @Override
     public void deleteById(Integer id) {
         if (assetMapper.countByCategoryId(id) > 0) {
-            throw new BusinessException("AssetCategory has been assets, failed to delete");
+            throw new BusinessException(ResponseCode.CONFLICT, "AssetCategory is used by assets, failed to delete");
         }
         if (assetCategoryMapper.deleteById(id) == 0) {
-            throw new BusinessException("Failed to delete AssetCategory");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to delete AssetCategory");
         }
         log.info("Deleted assetCategory, id: {}", id);
     }
@@ -47,7 +48,7 @@ public class AssetCategoryServiceImpl implements AssetCategoryService {
     public List<AssetCategoryVo> getAll() {
         List<AssetCategory>  assetCategories= assetCategoryMapper.list();
         if (assetCategories==null || assetCategories.isEmpty()){
-            throw new BusinessException("No AssetCategory found");
+            throw new BusinessException(ResponseCode.NOT_FOUND);
         }
         log.info("Get all AssetCategory, assetCategories size: {}", assetCategories.size());
         return assetCategories.stream().map(assetCategory -> {

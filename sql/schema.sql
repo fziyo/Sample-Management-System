@@ -16,6 +16,17 @@ create table role (
                       update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) comment 'Admin Staff';
 
+create table permission (
+    id int unsigned primary key auto_increment,
+    name varchar(50),
+    code varchar(100) unique
+);
+
+create table role_permission (
+    role_id int unsigned,
+    permission_id int unsigned
+);
+
 create table team (
                                id int unsigned primary key auto_increment,
                                name varchar(50) unique not null ,
@@ -85,3 +96,4 @@ create table borrow_request (
 -- user request borrow(pending/cancelled)：create_time > approver confirm(approved/rejected)：request_approver_id + request_approve_time > user confirm receive device(in_use)：borrow_start_time >
 -- user request return(return_pending):return_request_time > approver confirm return(finished)：return_approver_id + return_approve_time
 
+# permission

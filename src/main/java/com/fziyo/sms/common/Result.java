@@ -1,5 +1,6 @@
 package com.fziyo.sms.common;
 
+import com.fziyo.sms.common.constant.ResponseCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,15 +21,15 @@ public class Result<T> {
     }
     
     public static<T> Result<T> success(){
-        return new Result<>(200, "success", null);
+        return new Result<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMsg(), null);
     }
     
     public static<T> Result<T> success(T data){
-        return new Result<>(200, "success", data);
+        return new Result<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMsg(), data);
     }
     
     public static<T> Result<T> error(String msg){
-        return new Result<>(500, msg, null);
+        return new Result<>(ResponseCode.SYSTEM_ERROR.getCode(), msg, null);
     }
     
     public static<T> Result<T> error(Integer code, String msg){

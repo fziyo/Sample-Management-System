@@ -1,5 +1,6 @@
 package com.fziyo.sms.service.impl;
 
+import com.fziyo.sms.common.constant.ResponseCode;
 import com.fziyo.sms.common.exception.BusinessException;
 import com.fziyo.sms.mapper.EmpMapper;
 import com.fziyo.sms.model.dto.EmpCreateDto;
@@ -27,7 +28,7 @@ public class EmpServiceImpl implements EmpService {
         Emp emp = new Emp();
         BeanUtils.copyProperties(empcreatedto, emp);
         if (empMapper.insert(emp) == 0) {
-            throw new BusinessException("Failed to save emp");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to save emp");
         }
         log.info("Saved employee, emp: {}", emp);
     }
@@ -36,7 +37,7 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public void deleteByIds(List<Integer> ids) {
         if (empMapper.deleteByIds(ids) != ids.size()) {
-            throw new BusinessException("Failed to delete employees");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to delete employees");
         }
         log.info("Deleted employees, ids: {}", ids);
     }
@@ -46,7 +47,7 @@ public class EmpServiceImpl implements EmpService {
         Emp emp = new Emp();
         BeanUtils.copyProperties(empUpdateDto, emp);
         if (empMapper.update(emp) == 0) {
-            throw new BusinessException("Failed to update employees");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to update employees");
         }
         log.info("Updated employee, emp: {}", emp);
     }
@@ -55,7 +56,7 @@ public class EmpServiceImpl implements EmpService {
     public EmpVo getById(Integer id) {
         Emp emp = empMapper.getById(id);
         if (emp == null) {
-            throw new BusinessException("User not found");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "User not found");
         }
         EmpVo empVo = new EmpVo();
         BeanUtils.copyProperties(emp,  empVo);
@@ -67,7 +68,7 @@ public class EmpServiceImpl implements EmpService {
     public List<EmpVo> getAll() {
         List<Emp> emps = empMapper.list();
         if (emps == null) {
-            throw new BusinessException("Users not found");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Users not found");
         }
         log.info("Get employees, emps size: {}", emps.size());
         return emps.stream().map(emp -> {

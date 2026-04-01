@@ -1,5 +1,6 @@
 package com.fziyo.sms.service.impl;
 
+import com.fziyo.sms.common.constant.ResponseCode;
 import com.fziyo.sms.common.exception.BusinessException;
 import com.fziyo.sms.mapper.EmpMapper;
 import com.fziyo.sms.mapper.RoleMapper;
@@ -31,7 +32,7 @@ public class RoleServiceImpl implements RoleService {
         role.setCreateTime(LocalDateTime.now());
         role.setUpdateTime(LocalDateTime.now());
         if (roleMapper.insert(role) == 0) {
-            throw new BusinessException("Fail to insert role");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Fail to insert role");
         }
         log.info("Save role: {}", role);
     }
@@ -39,7 +40,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void deleteById(Integer id) {
         if (empMapper.countByRoleId(id) > 0) {
-            throw new BusinessException("Emps exist, cannot delete role");
+            throw new BusinessException(ResponseCode.CONFLICT, "Emps exist, cannot delete role");
         }
         roleMapper.deleteById(id);
         log.info("Delete role: {}", id);
@@ -49,7 +50,7 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleVo> getAll() {
         List<Role> roles = roleMapper.list();
         if (roles == null || roles.isEmpty()) {
-            throw new BusinessException("Fail to get roles");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Fail to get roles");
         }
         log.info("Get roles size: {}", roles.size());
         return roles.stream().map(role -> {

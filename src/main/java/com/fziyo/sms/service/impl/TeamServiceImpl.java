@@ -1,5 +1,6 @@
 package com.fziyo.sms.service.impl;
 
+import com.fziyo.sms.common.constant.ResponseCode;
 import com.fziyo.sms.common.exception.BusinessException;
 import com.fziyo.sms.mapper.EmpMapper;
 import com.fziyo.sms.mapper.TeamMapper;
@@ -36,7 +37,7 @@ public class TeamServiceImpl implements TeamService {
     public void deleteById(Integer id) {
         Integer count = empMapper.countByTeamId(id);
         if (count > 0) {
-            throw new BusinessException("Team has employees, cannot delete team");
+            throw new BusinessException(ResponseCode.CONFLICT, "Team has employees, cannot delete team");
         }
         teamMapper.deleteById(id);
         log.info("Delete team: {}", id);
@@ -46,7 +47,7 @@ public class TeamServiceImpl implements TeamService {
     public List<TeamVo> getAll() {
         List<Team> teams = teamMapper.list();
         if (teams == null || teams.isEmpty()) {
-            throw new BusinessException("Fail to get teams");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Fail to get teams");
         }
         log.info("Get teams size: {}", teams.size());
         return teams.stream().map(team -> {
