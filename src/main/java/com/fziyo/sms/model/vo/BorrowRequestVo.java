@@ -10,13 +10,13 @@ public class BorrowRequestVo {
     private Integer borrowerId;
     private Integer status;
     
-    private Integer requestApproverId;
+    private Integer requestHandlerId;
     private LocalDateTime requestApproveTime;
     
     private LocalDateTime borrowStartTime;
     private LocalDateTime returnRequestTime;
     
-    private Integer returnApproverId;
+    private Integer returnHandlerId;
     private LocalDateTime returnApproveTime;
     
     private LocalDateTime createdTime;

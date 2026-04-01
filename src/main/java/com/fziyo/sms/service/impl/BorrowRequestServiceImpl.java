@@ -58,11 +58,65 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
     }
     
     @Override
+    public void cancelRequest(Integer id) {
+        BorrowRequest borrowRequest = borrowRequestMapper.getById(id);
+        // todo: replace approverId with context userId
+        // only borrower can cancel the request
+        if (borrowRequest == null || borrowRequest.getBorrowerId() != 1) {
+            throw new BusinessException("BorrowRequest not found");
+        }
+        if (borrowRequestMapper.cancelRequest(id, BorrowRequestStatus.CANCELLED) == 0) {
+            throw new BusinessException("Failed to cancel BorrowRequest");
+        }
+        log.info("Cancel BorrowRequest: {}", borrowRequest);
+    }
+    
+    @Override
     public void approveRequest(Integer id) {
         // todo: replace approverId with context userId
         if (borrowRequestMapper.approveRequest(id, BorrowRequestStatus.APPROVED, 1) == 0) {
             throw new BusinessException("BorrowRequest not found");
         }
-        log.info("Approve BorrowRequest: {}", borrowRequestMapper.getById(id));
+        log.info("Approve BorrowRequest: {}", id);
+    }
+    
+    @Override
+    public void rejectRequest(Integer id) {
+        // todo: replace approverId with context userId
+        if (borrowRequestMapper.rejectRequest(id, BorrowRequestStatus.REJECTED, 1) == 0) {
+            throw new BusinessException("BorrowRequest not found");
+        }
+        log.info("Reject BorrowRequest: {}", id);
+    }
+    
+    @Override
+    public void confirmBorrow(Integer id) {
+        // todo: replace approverId with context userId
+        if (borrowRequestMapper.confirmBorrow(id, BorrowRequestStatus.IN_USE) == 0) {
+            throw new BusinessException("BorrowRequest not found");
+        }
+        log.info("Confirm BorrowRequest: {}", id);
+    }
+    
+    @Override
+    public void requestReturn(Integer id) {
+        BorrowRequest borrowRequest = borrowRequestMapper.getById(id);
+        // todo: replace approverId with context userId
+        if ( borrowRequest == null || borrowRequest.getBorrowerId() != 1) {
+            throw new BusinessException("BorrowRequest not found");
+        }
+        if (borrowRequestMapper.requestReturn(id, BorrowRequestStatus.RETURN_PENDING) == 0) {
+            throw new BusinessException("Failed to return BorrowRequest");
+        }
+        log.info("Return BorrowRequest: {}", id);
+    }
+    
+    @Override
+    public void approveReturn(Integer id) {
+        // todo: replace approverId with context userId
+        if (borrowRequestMapper.approveReturn(id, BorrowRequestStatus.FINISHED, 1) == 0) {
+            throw new BusinessException("BorrowRequest not found");
+        }
+        log.info("Approve BorrowRequest return: {}", id);
     }
 }

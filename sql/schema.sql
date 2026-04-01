@@ -69,13 +69,13 @@ create table borrow_request (
 6=FINISHED',
 
 --  approver approve request
-                                request_approver_id int unsigned comment 'emp pk',
+                                request_handler_id int unsigned comment 'emp pk',
                                 request_approve_time DATETIME comment 'time request is approved',
 --  user confirm receive
                                 borrow_start_time DATETIME comment 'time borrow is confirmed by user',
                                 return_request_time DATETIME comment 'time return is requested',
 -- approver approve return
-                                return_approver_id int unsigned,
+                                return_handler_id int unsigned,
                                 return_approve_time DATETIME comment 'admin approved return',
 -- request created/ updated
                                 create_time DATETIME DEFAULT CURRENT_TIMESTAMP comment 'time borrow is requested',

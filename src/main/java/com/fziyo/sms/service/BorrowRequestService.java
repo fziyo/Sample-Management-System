@@ -12,5 +12,10 @@ public interface BorrowRequestService {
     
     List<BorrowRequestVo> getAll();
     
+    void cancelRequest(Integer id);
     void approveRequest(Integer id);
+    void rejectRequest(Integer id);
+    void confirmBorrow(Integer id);
+    void requestReturn(Integer id);
+    void approveReturn(Integer id);
 }

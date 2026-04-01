@@ -37,4 +37,39 @@ public class BorrowRequestController {
         log.info("Approved BorrowRequest successfully {}", id);
         return Result.success();
     }
+    
+    @PostMapping("/{id}/cancel-request")
+    public Result<Void> cancelRequest(@PathVariable Integer id) {
+        borrowRequestService.cancelRequest(id);
+        log.info("Cancelled BorrowRequest successfully {}", id);
+        return Result.success();
+    }
+    
+    @PostMapping("/{id}/reject-request")
+    public Result<Void> rejectRequest(@PathVariable Integer id) {
+        borrowRequestService.rejectRequest(id);
+        log.info("Rejected BorrowRequest successfully {}", id);
+        return Result.success();
+    }
+    
+    @PostMapping("/{id}/confirm-borrow")
+    public Result<Void> confirmBorrow(@PathVariable Integer id) {
+        borrowRequestService.confirmBorrow(id);
+        log.info("Confirmed BorrowRequest successfully {}", id);
+        return Result.success();
+    }
+    
+    @PostMapping("/{id}/request-return")
+    public Result<Void> requestReturn(@PathVariable Integer id) {
+        borrowRequestService.requestReturn(id);
+        log.info("Requested BorrowRequest successfully {}", id);
+        return Result.success();
+    }
+    
+    @PostMapping("/{id}/approve-return")
+    public Result<Void> approveReturn(@PathVariable  Integer id) {
+        borrowRequestService.approveReturn(id);
+        log.info("Approved BorrowRequest return successfully {}", id);
+        return Result.success();
+    }
 }

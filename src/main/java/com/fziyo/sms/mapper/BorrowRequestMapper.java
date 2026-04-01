@@ -16,7 +16,6 @@ public interface  BorrowRequestMapper {
     @Select("Select * from borrow_request where id = #{id}")
     BorrowRequest getById(int id);
     
-    
     int deleteByIds(List<Integer> ids);
     
     @Select("Select * from borrow_request")
@@ -25,14 +24,14 @@ public interface  BorrowRequestMapper {
     // 1=CANCELLED
     int cancelRequest(Integer id, int cancelledStatus);
     // 2=APPROVED
-    int approveRequest(Integer id, int approveStatus, Integer approverId);
+    int approveRequest(Integer id, int approveStatus, Integer handlerId);
     // 3=REJECTED
-    int rejectRequest(Integer id, int rejectedStatus, Integer approverId);
+    int rejectRequest(Integer id, int rejectedStatus, Integer handlerId);
     // 4=IN_USE
     int confirmBorrow(Integer id, int inUseStatus);
     // 5=RETURN_PENDING
     int requestReturn(Integer id, int returnPendingStatus);
     // 6=FINISHED
-    int approveReturn(Integer id, int finishedStatus, Integer approverId);
+    int approveReturn(Integer id, int finishedStatus, Integer handlerId);
     
 }
