@@ -1,33 +1,74 @@
-create table emp (
-                      id int unsigned primary key auto_increment,
-                      emp_no varchar(30) not null unique comment 'login account',
-                      name varchar(50) not null comment 'real name',
-                      gender tinyint unsigned not null default 0 comment '0=unknown 1=male 2=female',
-                      team_id int unsigned not null comment 'business unit',
-                      role_id int unsigned not null,
-                      create_time datetime default current_timestamp,
-                      update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+DROP TABLE IF EXISTS `t_emp`;
+CREATE TABLE `t_emp` (
+                       `id` int(11) NOT NULL AUTO_INCREMENT,
+                       `emp_no` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Login Account',
+                       `pwd` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Login Password',
+                       `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Real Name',
+                       `tel` varchar(18) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Tel',
+                       `email` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Email',
+                       `gender` tinyint unsigned NOT NULL DEFAULT 0 comment '0 Unknown 1 Male 2 Female',
+#                        `team_id` int unsigned NOT NULL COMMENT 'Business Unit',
+                       `account_non_expired` int(11) NULL DEFAULT NULL COMMENT '0 Expired 1 Normal',
+                       `credentials_non_expired` int(11) NULL DEFAULT NULL COMMENT '0 Expired 1 Normal',
+                       `account_non_locked` int(11) NULL DEFAULT NULL COMMENT '0 Locked 1 Normal',
+                       `account_enabled` int(11) NULL DEFAULT NULL COMMENT '0 Disabled 1 Enabled',
+                       `create_time` datetime NULL DEFAULT NULL COMMENT 'Create Time',
+                       `create_by` int(11) NULL DEFAULT NULL COMMENT 'Created By',
+                       `edit_time` datetime NULL DEFAULT NULL COMMENT 'Edite Time',
+                       `edit_by` int(11) NULL DEFAULT NULL COMMENT 'Edited By',
+                       `last_login_time` datetime NULL DEFAULT NULL COMMENT 'Last Login Time',
+                       PRIMARY KEY (`id`) USING BTREE,
+                       UNIQUE INDEX `emp_no`(`emp_no`) USING BTREE,
+                       UNIQUE INDEX `tel`(`tel`) USING BTREE,
+                       UNIQUE INDEX `email`(`email`) USING BTREE
+)ENGINE = InnoDB AUTO_INCREMENT = 50 CHARSET = UTF8 COLLATE = utf8mb3_general_ci COMMENT = 'Employee Table' ROW_FORMAT = DYNAMIC;
 
-create table role (
-                      id int unsigned primary key auto_increment,
-                      name varchar(50) unique not null comment 'Admin Staff',
-                      create_time datetime default current_timestamp,
-                      update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) comment 'Admin Staff';
 
-create table permission (
-    id int unsigned primary key auto_increment,
-    name varchar(50),
-    code varchar(100) unique
-);
 
-create table role_permission (
-    role_id int unsigned,
-    permission_id int unsigned
-);
+DROP TABLE IF EXISTS `t_role`;
+CREATE TABLE `t_role` (
+                      `id` int(11) NOT NULL AUTO_INCREMENT,
+                      `role` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                      `role_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                       PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Role Table' ROW_FORMAT = DYNAMIC;
 
-create table team (
+
+
+DROP TABLE IF EXISTS `t_permission`;
+CREATE TABLE `t_permission`  (
+                                 `id` int(11) NOT NULL AUTO_INCREMENT,
+                                 `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                 `code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                 `url` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                 `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                 `parent_id` int(11) NULL DEFAULT NULL,
+                                 `order_no` int(11) NULL DEFAULT NULL,
+                                 `icon` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Memu Icon',
+                                 `component` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Component Name',
+                                 PRIMARY KEY (`id`) USING BTREE
+
+) ENGINE = InnoDB AUTO_INCREMENT = 1113 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Permission Table' ROW_FORMAT = DYNAMIC;
+
+
+
+DROP TABLE IF EXISTS `t_role_permission`;
+CREATE TABLE `t_role_permission` (
+                                    `id` int(11) NOT NULL AUTO_INCREMENT,
+                                    `role_id` int(11) NULL DEFAULT NULL,
+                                    `permission_id` int(11) NULL DEFAULT NULL,
+                                     PRIMARY KEY (`id`) USING BTREE,
+                                     INDEX `t_role_permission_ibfk_1`(`role_id`) USING BTREE,
+                                     INDEX `t_role_permission_ibfk_2`(`permission_id`) USING BTREE,
+                                     CONSTRAINT `t_role_permission_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+                                     CONSTRAINT `t_role_permission_ibfk_2` FOREIGN KEY (`permission_id`) REFERENCES `t_permission` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+
+) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Role Permission Table' ROW_FORMAT = DYNAMIC;
+
+
+
+DROP TABLE IF EXISTS `t_team`;
+CREATE TABLE `t_team` (
                                id int unsigned primary key auto_increment,
                                name varchar(50) unique not null ,
                                create_time datetime default current_timestamp,
