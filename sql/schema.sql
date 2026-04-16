@@ -1,118 +1,206 @@
 DROP TABLE IF EXISTS `t_emp`;
 CREATE TABLE `t_emp` (
                        `id` int(11) NOT NULL AUTO_INCREMENT,
-                       `emp_no` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Login Account',
-                       `pwd` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Login Password',
-                       `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Real Name',
-                       `tel` varchar(18) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Tel',
-                       `email` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Email',
+                       `emp_no` varchar(32) NOT NULL COMMENT 'Login Account',
+                       `pwd` varchar(64) NOT NULL COMMENT 'Login Password',
+                       `name` varchar(32) NOT NULL COMMENT 'Real Name',
+                       `tel` varchar(18) UNIQUE DEFAULT NULL COMMENT 'Tel',
+                       `email` varchar(64)  NOT NULL UNIQUE COMMENT 'Email',
                        `gender` tinyint unsigned NOT NULL DEFAULT 0 comment '0 Unknown 1 Male 2 Female',
-#                        `team_id` int unsigned NOT NULL COMMENT 'Business Unit',
-                       `account_non_expired` int(11) NULL DEFAULT NULL COMMENT '0 Expired 1 Normal',
-                       `credentials_non_expired` int(11) NULL DEFAULT NULL COMMENT '0 Expired 1 Normal',
-                       `account_non_locked` int(11) NULL DEFAULT NULL COMMENT '0 Locked 1 Normal',
-                       `account_enabled` int(11) NULL DEFAULT NULL COMMENT '0 Disabled 1 Enabled',
-                       `create_time` datetime NULL DEFAULT NULL COMMENT 'Create Time',
-                       `create_by` int(11) NULL DEFAULT NULL COMMENT 'Created By',
-                       `edit_time` datetime NULL DEFAULT NULL COMMENT 'Edite Time',
-                       `edit_by` int(11) NULL DEFAULT NULL COMMENT 'Edited By',
-                       `last_login_time` datetime NULL DEFAULT NULL COMMENT 'Last Login Time',
-                       PRIMARY KEY (`id`) USING BTREE,
-                       UNIQUE INDEX `emp_no`(`emp_no`) USING BTREE,
-                       UNIQUE INDEX `tel`(`tel`) USING BTREE,
-                       UNIQUE INDEX `email`(`email`) USING BTREE
-)ENGINE = InnoDB AUTO_INCREMENT = 50 CHARSET = UTF8 COLLATE = utf8mb3_general_ci COMMENT = 'Employee Table' ROW_FORMAT = DYNAMIC;
+                       `account_non_expired` tinyint NOT NULL DEFAULT 1 COMMENT '0 Expired 1 Normal',
+                       `credentials_non_expired` tinyint NOT NULL DEFAULT 1 COMMENT '0 Expired 1 Normal',
+                       `account_non_locked` tinyint NOT NULL DEFAULT 1 COMMENT '0 Locked 1 Normal',
+                       `account_enabled` tinyint NOT NULL DEFAULT 1 COMMENT '0 Disabled 1 Enabled',
+                       `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
+                       `create_by` int(11) DEFAULT NULL COMMENT 'Created By',
+                       `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Edite Time',
+                       `edit_by` int(11) DEFAULT NULL COMMENT 'Edited By',
+                       `last_login_time` datetime DEFAULT NULL COMMENT 'Last Login Time',
+                       PRIMARY KEY (`id`),
+                       UNIQUE KEY `emp_no`(`emp_no`),
+                       UNIQUE KEY `tel`(`tel`),
+                       UNIQUE KEY `email`(`email`)
+) ENGINE=InnoDB
+  AUTO_INCREMENT = 100000
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
+  COMMENT='Employee Table'
+  ROW_FORMAT=DYNAMIC;
 
 
 
 DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role` (
-                      `id` int(11) NOT NULL AUTO_INCREMENT,
-                      `role` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                      `role_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                       PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Role Table' ROW_FORMAT = DYNAMIC;
+                          `id` INT(11) NOT NULL AUTO_INCREMENT,
+                          `role_code` VARCHAR(30) NOT NULL COMMENT 'Role Code (eg. ADMIN)',
+                          `role_name` VARCHAR(30) NOT NULL COMMENT 'Role Name (eg. Administrator)',
+                          `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
+                          `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                          PRIMARY KEY (`id`),
+                          UNIQUE KEY `uk_role_code` (`role_code`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
+  COMMENT='Role Table';
 
+
+DROP TABLE IF EXISTS `t_emp_role`;
+
+CREATE TABLE `t_emp_role` (
+                              `emp_id` INT(11) NOT NULL,
+                              `role_id` INT(11) NOT NULL,
+                              PRIMARY KEY (`emp_id`, `role_id`),
+                              INDEX `idx_role_id` (`role_id`),
+                              CONSTRAINT `fk_emp_role_emp` FOREIGN KEY (`emp_id`) REFERENCES `t_emp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                              CONSTRAINT `fk_emp_role_role` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
+  COMMENT='Employee Role Mapping';
 
 
 DROP TABLE IF EXISTS `t_permission`;
 CREATE TABLE `t_permission`  (
                                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                                 `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                                 `code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                                 `url` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                                 `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                                 `parent_id` int(11) NULL DEFAULT NULL,
-                                 `order_no` int(11) NULL DEFAULT NULL,
-                                 `icon` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Memu Icon',
-                                 `component` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Component Name',
-                                 PRIMARY KEY (`id`) USING BTREE
+                                 `name` varchar(30) NOT NULL COMMENT 'Permission Name',
+                                 `code` varchar(30) NOT NULL COMMENT 'Permission Code (e.g. asset:list)',
+                                 `url` varchar(30) DEFAULT NULL,
+                                 `type` TINYINT NOT NULL COMMENT '1=menu 2=button 3=api',
+                                 `parent_id` int(11) DEFAULT NULL,
+                                 `order_no` int(11) DEFAULT 0 COMMENT 'Order',
+                                 `icon` varchar(100) DEFAULT NULL COMMENT 'Menu Icon',
+                                 `component` varchar(50) DEFAULT NULL COMMENT 'Frontend Component',
+                                 PRIMARY KEY (`id`),
+                                 UNIQUE KEY `uk_code` (`code`),
+                                 INDEX `idx_parent_id` (`parent_id`)
 
-) ENGINE = InnoDB AUTO_INCREMENT = 1113 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Permission Table' ROW_FORMAT = DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Permission Table' ROW_FORMAT=DYNAMIC;
 
 
 
 DROP TABLE IF EXISTS `t_role_permission`;
 CREATE TABLE `t_role_permission` (
-                                    `id` int(11) NOT NULL AUTO_INCREMENT,
-                                    `role_id` int(11) NULL DEFAULT NULL,
-                                    `permission_id` int(11) NULL DEFAULT NULL,
-                                     PRIMARY KEY (`id`) USING BTREE,
-                                     INDEX `t_role_permission_ibfk_1`(`role_id`) USING BTREE,
-                                     INDEX `t_role_permission_ibfk_2`(`permission_id`) USING BTREE,
-                                     CONSTRAINT `t_role_permission_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-                                     CONSTRAINT `t_role_permission_ibfk_2` FOREIGN KEY (`permission_id`) REFERENCES `t_permission` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-
-) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Role Permission Table' ROW_FORMAT = DYNAMIC;
+                                    `role_id` int(11) NOT NULL,
+                                    `permission_id` int(11) NOT NULL,
+                                     PRIMARY KEY (`role_id`, `permission_id`),
+                                     INDEX `idx_permission_id` (`permission_id`),
+                                     CONSTRAINT `fk_role_permission_role` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+                                     CONSTRAINT `fk_role_permission_permission` FOREIGN KEY (`permission_id`) REFERENCES `t_permission` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Role Permission Mapping' ROW_FORMAT=DYNAMIC;
 
 
 
 DROP TABLE IF EXISTS `t_team`;
 CREATE TABLE `t_team` (
-                               id int unsigned primary key auto_increment,
-                               name varchar(50) unique not null ,
-                               create_time datetime default current_timestamp,
-                               update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+                          `id` int(11) NOT NULL AUTO_INCREMENT,
+                          `name` varchar(30) NOT NULL COMMENT 'Team Name',
+                          `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
+                          `create_by` int(11) DEFAULT NULL COMMENT 'Created By',
+                          `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Update Time',
+                          `update_by` INT DEFAULT NULL COMMENT 'Updated By',
+                          PRIMARY KEY (`id`),
+                          UNIQUE KEY `uk_team_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Team Table' ROW_FORMAT = DYNAMIC;;
 
-create table asset (
-                               id int unsigned primary key auto_increment,
-                               asset_code VARCHAR(100) unique not null comment '00RY',
-                               name varchar(50) not null comment 'device name',
-                               model varchar(50) not null comment 'ELA-B19',
 
-                               category_id int unsigned not null comment 'asset_category pk',
-                               team_id int unsigned not null comment 'unit owned by',
-                               owner_id int unsigned not null comment 'emp pk responsible person',
 
-                               sn VARCHAR(50) unique not null comment 'serial number',
-                               mac_addr VARCHAR(50) unique ,
+DROP TABLE IF EXISTS `t_emp_team`;
+CREATE TABLE `t_emp_team`  (
+                            `emp_id` int(11) NOT NULL,
+                            `team_id` int(11) NOT NULL,
+                            PRIMARY KEY (`emp_id`),
+                            INDEX `idx_team_id`(`team_id`),
+                            CONSTRAINT `fk_emp_team_emp` FOREIGN KEY (`emp_id`) REFERENCES `t_emp` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+                            CONSTRAINT `fk_emp_team_team` FOREIGN KEY (`team_id`) REFERENCES `t_team` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Emp Team Mapping' ROW_FORMAT=DYNAMIC;
 
-                               release_year year,
 
-                               asset_condition tinyint unsigned not null default 0 comment '0=Good 1=Damaged',
-                               commercial_status tinyint unsigned not null comment '0=Commercial 1=Non-commercial',
-                               is_active BOOLEAN DEFAULT TRUE comment 'Yes No',
 
-                               status tinyint unsigned not null DEFAULT 0 comment '0=Stock 1=In Use',
-                               current_user_id int unsigned comment 'emp pk',
+DROP TABLE IF EXISTS `t_asset`;
+CREATE TABLE `t_asset` (
+                        `id` int(11) NOT NULL AUTO_INCREMENT,
+                        `code` varchar(30) NOT NULL COMMENT 'Asset Code (e.g. 00RY)',
+                        `name` varchar(50) NOT NULL COMMENT 'Asset Name',
+                        `model` varchar(50) NOT NULL COMMENT 'Model (e.g. ELA-B19)',
 
-                               location VARCHAR(255),
-                               description TEXT,
+                        `category_id` int(11) NOT NULL COMMENT 'Asset Category ID',
+                        `team_id` int(11) NOT NULL COMMENT 'Owning Team ID',
+                        `owner_id` int(11) unsigned NOT NULL COMMENT 'Responsible Employee ID',
 
-                               create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-                               update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+                        `sn` VARCHAR(50) unique NOT NULL COMMENT 'Serial Number',
+                        `mac_addr` VARCHAR(50) DEFAULT NULL COMMENT 'MAC Address',
+                        `release_year`  YEAR DEFAULT NULL,
 
-create table asset_category (
-                                 id int unsigned PRIMARY KEY AUTO_INCREMENT,
-                                 name VARCHAR(50) UNIQUE NOT NULL comment 'wearable phone tablet',
-                                 create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-                                 update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                        `asset_condition` TINYINT NOT NULL DEFAULT 0 COMMENT '0=Good 1=Damaged',
+                        commercial_status TINYINT NOT NULL DEFAULT 0 COMMENT '0=Commercial 1=Non-commercial',
+                        is_active TINYINT NOT NULL DEFAULT 1 COMMENT '0=Inactive 1=Active',
 
-) comment 'wearable phone tablet';
+                        status TINYINT NOT NULL DEFAULT 0 COMMENT '0=Stock 1=In Use',
+                        current_user_id int(11) DEFAULT NULL COMMENT 'Current User',
 
-create table borrow_request (
+                        location VARCHAR(255) DEFAULT NULL,
+                        description TEXT,
+
+                        create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+                        PRIMARY KEY (`id`),
+
+                        UNIQUE KEY `uk_code` (`code`),
+                        UNIQUE KEY `uk_sn` (`sn`),
+                        UNIQUE KEY `uk_mac` (`mac_addr`),
+
+                        INDEX `idx_category_id` (`category_id`),
+                        INDEX `idx_team_id` (`team_id`),
+                        INDEX `idx_owner_id` (`owner_id`),
+                        INDEX `idx_current_user_id` (`current_user_id`),
+
+                        CONSTRAINT `fk_asset_category`
+                            FOREIGN KEY (`category_id`)
+                                REFERENCES `t_asset_category` (`id`)
+                                ON DELETE RESTRICT,
+
+                        CONSTRAINT `fk_asset_team`
+                            FOREIGN KEY (`team_id`)
+                                REFERENCES `t_team` (`id`)
+                                ON DELETE RESTRICT,
+
+                        CONSTRAINT `fk_asset_owner`
+                            FOREIGN KEY (`owner_id`)
+                                REFERENCES `t_emp` (`id`)
+                                ON DELETE RESTRICT,
+
+                        CONSTRAINT `fk_asset_user`
+                            FOREIGN KEY (`current_user_id`)
+                                REFERENCES `t_emp` (`id`)
+                                ON DELETE SET NULL
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
+  COMMENT='Asset Table'
+  ROW_FORMAT=DYNAMIC;;
+
+
+
+DROP TABLE IF EXISTS `t_asset_category`;
+CREATE TABLE `t_asset_category` (
+                                `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                `name` VARCHAR(50) NOT NULL COMMENT 'Category Name',
+                                `code` VARCHAR(30) DEFAULT NULL COMMENT 'Category Code (optional)',
+                                `status` TINYINT NOT NULL DEFAULT 1 COMMENT '0=Disabled 1=Enabled',
+                                `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                PRIMARY KEY (`id`),
+                                UNIQUE KEY `uk_category_name` (`name`)
+
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
+  COMMENT='Asset Category Table';
+
+
+DROP TABLE IF EXISTS `t_borrow_request`;
+create table `t_borrow_request` (
                                 id int unsigned PRIMARY KEY AUTO_INCREMENT,
                                 asset_id int unsigned not null comment 'asset pk',
                                 borrower_id int unsigned not null comment 'emp pk',
