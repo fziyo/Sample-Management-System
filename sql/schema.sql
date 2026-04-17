@@ -127,8 +127,8 @@ CREATE TABLE `t_emp_team`  (
                                CONSTRAINT `fk_emp_team_team` FOREIGN KEY (`team_id`) REFERENCES `t_team` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB
     DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci C
-    OMMENT='Emp Team Mapping';
+    COLLATE=utf8mb4_general_ci
+    COMMENT='Emp Team Mapping';
 
 
 
