@@ -9,13 +9,11 @@ import java.util.List;
 
 @Mapper
 public interface AssetCategoryMapper {
-    @Insert("Insert into asset_category(name) " +
-                "values (#{name})")
+    
     int insert(AssetCategory assetCategory);
     
     int deleteById(Integer id);
     
-    @Select("Select * from asset_category")
     List<AssetCategory> list();
     
 }

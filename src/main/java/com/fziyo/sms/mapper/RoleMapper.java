@@ -12,13 +12,10 @@ import java.util.List;
 public interface RoleMapper {
     
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    @Insert("Insert into role(name) " +
-                    "values(#{name})")
     int insert(Role role);
     
     int deleteById(Integer id);
     
-    @Select("Select * from role")
     List<Role> list();
     
 }

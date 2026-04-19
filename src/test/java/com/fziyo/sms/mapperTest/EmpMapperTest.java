@@ -21,37 +21,35 @@ public class EmpMapperTest {
     void testInert() {
         Emp emp = new Emp();
         emp.setEmpNo("f1234");
-        emp.setGender(1);
+        emp.setPwd("123456");
         emp.setName("Fuzi");
-        emp.setTeamId(1);
-        emp.setRoleId(1);
+        emp.setEmail("fuzi@qq.com");
+        emp.setGender(1);
         emp.setCreateTime(LocalDateTime.now());
-        emp.setUpdateTime(LocalDateTime.now());
+        emp.setEditTime(LocalDateTime.now());
         assert(empMapper.insert(emp) == 1);
     }
 
     @Test
     void testDeleteByIds() {
-        List<Integer> ids = List.of(1);
+        List<Integer> ids = List.of(100000);
         assert(empMapper.deleteByIds(ids) == 1);
     }
     
     @Test
     void testUpdate() {
         Emp emp = new Emp();
-        emp.setId(4);
+        emp.setId(100001);
         emp.setEmpNo("M1234");
         emp.setGender(2);
         emp.setName("Mary");
-        emp.setTeamId(2);
-        emp.setRoleId(2);
-        emp.setUpdateTime(LocalDateTime.now());
-        assert(empMapper.update(emp) == 0);
+        emp.setEditTime(LocalDateTime.now());
+        assert(empMapper.update(emp) == 1);
     }
     
     @Test
     void testGetById() {
-        Emp emp = empMapper.getById(4);
+        Emp emp = empMapper.getById(100001);
         if (emp != null) {
             log.info(emp.toString());
         }

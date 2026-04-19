@@ -20,6 +20,7 @@ public class AssetCategoryMapperTest {
     void testInsert() {
         AssetCategory assetCategory = new AssetCategory();
         assetCategory.setName("Mobile");
+        assetCategory.setCode("MBL");
         assetCategory.setCreateTime(LocalDateTime.now());
         assetCategory.setUpdateTime(LocalDateTime.now());
         assetCategoryMapper.insert(assetCategory);

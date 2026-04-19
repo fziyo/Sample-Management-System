@@ -11,12 +11,11 @@ import java.util.List;
 
 @Mapper
 public interface TeamMapper {
-    @Insert("Insert into team(name) " +
-                "values (#{name})")
+    
     int insert(Team team);
     
     int deleteById(Integer id);
     
-    @Select("Select * from team")
+    
     List<Team> list();
 }

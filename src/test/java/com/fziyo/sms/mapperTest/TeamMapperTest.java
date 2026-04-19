@@ -20,7 +20,7 @@ public class TeamMapperTest {
     @Test
     void testInsert() {
         Team team = new Team();
-        team.setName("HR");
+        team.setTeamName("HR");
         teamMapper.insert(team);
     }
     

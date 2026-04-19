@@ -102,13 +102,13 @@ CREATE TABLE `t_role_permission` (
 DROP TABLE IF EXISTS `t_team`;
 CREATE TABLE `t_team` (
                           `id` int unsigned NOT NULL AUTO_INCREMENT,
-                          `name` varchar(30) NOT NULL COMMENT 'Team Name',
+                          `team_name` varchar(30) NOT NULL COMMENT 'Team Name',
                           `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
                           `create_by` int unsigned DEFAULT NULL COMMENT 'Created By',
                           `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Update Time',
                           `update_by` int unsigned DEFAULT NULL COMMENT 'Updated By',
                           PRIMARY KEY (`id`),
-                          UNIQUE KEY `uk_team_name` (`name`)
+                          UNIQUE KEY `uk_team_name` (`team_name`)
 ) ENGINE=InnoDB
     AUTO_INCREMENT=1001
     DEFAULT CHARSET=utf8mb4

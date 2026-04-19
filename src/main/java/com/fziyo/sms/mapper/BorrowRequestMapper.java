@@ -24,14 +24,14 @@ public interface  BorrowRequestMapper {
     // 1=CANCELLED
     int cancelRequest(Integer id, int cancelledStatus);
     // 2=APPROVED
-    int approveRequest(Integer id, int approveStatus, Integer handlerId);
+    int approveRequest(Integer id, int approveStatus, Integer approverId);
     // 3=REJECTED
-    int rejectRequest(Integer id, int rejectedStatus, Integer handlerId);
+    int rejectRequest(Integer id, int rejectedStatus, Integer approverId);
     // 4=IN_USE
     int confirmBorrow(Integer id, int inUseStatus);
     // 5=RETURN_PENDING
     int requestReturn(Integer id, int returnPendingStatus);
     // 6=FINISHED
-    int approveReturn(Integer id, int finishedStatus, Integer handlerId);
+    int approveReturn(Integer id, int finishedStatus, Integer approverId);
     
 }

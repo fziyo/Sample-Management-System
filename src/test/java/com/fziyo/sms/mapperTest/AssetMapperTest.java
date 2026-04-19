@@ -19,12 +19,12 @@ public class AssetMapperTest {
     @Test
     public void testInsert(){
         Asset asset = new Asset();
-        asset.setAssetCode("AS01");
+        asset.setCode("AS01");
         asset.setName("iPhone 15");
         asset.setModel("A3090");
-        asset.setCategoryId(1);
-        asset.setTeamId(1);
-        asset.setOwnerId(1);
+        asset.setCategoryId(2);
+        asset.setTeamId(1001);
+        asset.setOwnerId(100001);
         asset.setSn("SN123456789");
         asset.setMacAddr("AA:BB:CC:DD:EE:FF");
         asset.setReleaseYear(Year.of(2023));
@@ -32,7 +32,7 @@ public class AssetMapperTest {
         asset.setCommercialStatus(1);
         asset.setIsActive(1);
         asset.setStatus(1);
-        asset.setCurrentUserId(1);
+        asset.setCurrentUserId(100001);
         asset.setLocation("Warsaw Office");
         asset.setDescription("Test device");
         
@@ -50,16 +50,15 @@ public class AssetMapperTest {
     
     @Test
     public void testDeleteByIds(){
-        List<Integer> ids = List.of(1,2,3);
+        List<Integer> ids = List.of(7);
         assetMapper.deleteByIds(ids);
-        
     }
     
     @Test
     public void testUpdate(){
         Asset asset = new Asset();
         asset.setId(2);
-        asset.setAssetCode("AS02");
+        asset.setCode("AS02");
         asset.setName("iPhone 15");
         asset.setModel("A2090");
         asset.setCategoryId(2);

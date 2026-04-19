@@ -11,13 +11,13 @@ public class BorrowRequest {
     private Integer borrowerId;
     private Integer status;
     
-    private Integer requestHandlerId;
+    private Integer requestApproverId;
     private LocalDateTime requestApproveTime;
     
     private LocalDateTime borrowStartTime;
     private LocalDateTime returnRequestTime;
     
-    private Integer returnHandlerId;
+    private Integer returnApproverId;
     private LocalDateTime returnApproveTime;
     
     private LocalDateTime createdTime;

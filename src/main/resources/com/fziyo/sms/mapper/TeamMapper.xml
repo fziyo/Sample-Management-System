@@ -3,8 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fziyo.sms.mapper.TeamMapper">
+    <insert id="insert">
+        Insert into t_team(team_name) values (#{teamName})
+    </insert>
     <delete id="deleteById">
-        delete from team where id = #{id}
+        Delete from t_team where id = #{id}
     </delete>
+    <select id="list" resultType="com.fziyo.sms.model.entity.Team">
+        Select * from t_team
+    </select>
 
 </mapper>

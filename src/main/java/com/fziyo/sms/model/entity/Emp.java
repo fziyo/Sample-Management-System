@@ -8,10 +8,21 @@ import java.time.LocalDateTime;
 public class Emp {
     private Integer id;
     private String empNo;
+    private String pwd;
     private String name;
+    private String tel;
+    private String email;
     private Integer gender;
-    private Integer teamId;
-    private Integer roleId;
+    private Integer accountNonExpired;
+    private Integer credentialsNonExpired;
+    private Integer accountNonLocked;
+    private Integer accountEnabled;
     private LocalDateTime createTime;
-    private LocalDateTime updateTime;
+    private Integer createBy;
+    private LocalDateTime editTime;
+    private Integer editedBy;
+    private LocalDateTime lastLoginTime;
+    
+    private String teamName;
+    private String roleName;
 }

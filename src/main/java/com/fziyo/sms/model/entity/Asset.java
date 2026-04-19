@@ -8,7 +8,7 @@ import java.time.Year;
 @Data
 public class Asset {
     private Integer id;
-    private String assetCode;
+    private String code;
     private String name;
     private String model;
     private Integer categoryId;

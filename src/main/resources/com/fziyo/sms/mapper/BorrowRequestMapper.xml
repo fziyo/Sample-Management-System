@@ -4,22 +4,22 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fziyo.sms.mapper.BorrowRequestMapper">
     <insert id="insert">
-        insert into borrow_request(asset_id, borrower_id, status)
+        insert into t_borrow_request(asset_id, borrower_id, status)
         values(#{assetId}, #{borrowerId}, #{status})
     </insert>
 
     <delete id="deleteByIds">
-        delete from team where id in
+        delete from t_borrow_request where id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
     </delete>
 
     <update id="approveRequest">
-        update borrow_request
+        update t_borrow_request
         <set>
             <if test="approveStatus != null"> status = #{approveStatus},</if>
-            <if test="handlerId != null"> request_handler_id = #{handlerId},</if>
+            <if test="approverId != null"> request_approver_id = #{approverId},</if>
             request_approve_time = now(),
 
 <!--            <if test="borrowStartTime != null">borrow_start_time = #{borrowStartTime},</if>-->
@@ -29,17 +29,17 @@
     </update>
 
     <update id="approveReturn">
-        update borrow_request
+        update t_borrow_request
         <set>
             <if test="finishedStatus != null"> status = #{finishedStatus},</if>
-            <if test="handlerId != null"> return_handler_id = #{handlerId},</if>
+            <if test="approverId != null"> request_approver_id = #{approverId},</if>
             return_approve_time = now(),
         </set>
         where id = #{id}
     </update>
 
     <update id="cancelRequest">
-        update borrow_request
+        update t_borrow_request
         <set>
             <if test="cancelledStatus != null"> status = #{cancelledStatus},</if>
         </set>
@@ -47,16 +47,16 @@
     </update>
 
     <update id="rejectRequest">
-        update borrow_request
+        update t_borrow_request
         <set>
             <if test="rejectedStatus != null"> status = #{rejectedStatus},</if>
-            <if test="handlerId != null"> request_handler_id = #{handlerId},</if>
+            <if test="approverId != null"> request_approver_id = #{approverId},</if>
         </set>
         where id = #{id}
     </update>
 
     <update id="confirmBorrow">
-        update borrow_request
+        update t_borrow_request
         <set>
             <if test="inUseStatus != null"> status = #{inUseStatus},</if>
             borrow_start_time = now(),
@@ -65,7 +65,7 @@
     </update>
 
     <update id="requestReturn">
-        update borrow_request
+        update t_borrow_request
         <set>
             <if test="returnPendingStatus != null"> status = #{returnPendingStatus},</if>
             return_request_time = now(),

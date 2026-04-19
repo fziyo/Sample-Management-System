@@ -27,7 +27,8 @@ public class RoleMapperTest {
     @Test
     public void insert() {
         Role role = new Role();
-        role.setName("Admin");
+        role.setRoleName("Administrator");
+        role.setRoleCode("ADMIN");
         role.setCreateTime(LocalDateTime.now());
         role.setUpdateTime(LocalDateTime.now());
         assert(roleMapper.insert(role) == 1);

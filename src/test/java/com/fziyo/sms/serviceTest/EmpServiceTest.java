@@ -39,8 +39,6 @@ public class EmpServiceTest {
         Emp savedEmp = captor.getValue();
         assertEquals("f84382", savedEmp.getEmpNo());
         assertEquals("Fuzi", savedEmp.getName());
-        assertEquals(1, savedEmp.getTeamId());
-        assertEquals(1, savedEmp.getRoleId());
     }
     
     @Test

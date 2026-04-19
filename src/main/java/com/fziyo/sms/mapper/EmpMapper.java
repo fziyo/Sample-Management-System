@@ -10,8 +10,6 @@ import java.util.List;
 public interface EmpMapper {
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    @Insert("Insert into emp(emp_no, name, gender, team_id, role_id) " +
-            "values(#{empNo}, #{name}, #{gender}, #{teamId}, #{roleId})")
     int insert(Emp emp);
 
     int deleteByIds(List<Integer> ids);

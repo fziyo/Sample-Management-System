@@ -15,7 +15,6 @@ public interface AssetMapper {
     
     int deleteByIds(List<Integer> ids);
     
-    @Select("Select * from asset")
     List<Asset> list();
     
     @Select("Select * from asset where id = #{id}")

@@ -4,28 +4,31 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fziyo.sms.mapper.AssetMapper">
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into asset(asset_code, name, model, category_id, team_id, owner_id, sn, mac_addr, release_year,
+        insert into t_asset(code, name, model, category_id, team_id, owner_id, sn, mac_addr, release_year,
         asset_condition, commercial_status, is_active, status, current_user_id, location, description)
-        values(#{assetCode}, #{name}, #{model}, #{categoryId}, #{teamId}, #{ownerId}, #{sn}, #{macAddr}, #{releaseYear},
+        values(#{code}, #{name}, #{model}, #{categoryId}, #{teamId}, #{ownerId}, #{sn}, #{macAddr}, #{releaseYear},
         #{assetCondition}, #{commercialStatus}, #{isActive}, #{status}, #{currentUserId}, #{location}, #{description})
     </insert>
 
     <delete id="deleteByIds">
-        delete from asset where id in
+        delete from t_asset where id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
     </delete>
 
     <select id="countByCategoryIds" resultType="java.lang.Integer">
-        select count(*) from asset where id in
+        select count(*) from t_asset where id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
     </select>
+    <select id="list" resultType="com.fziyo.sms.model.entity.Asset">
+        Select * from t_asset
+    </select>
 
     <update id="update">
-        update asset
+        update t_asset
         <set>
             <if test="name != null"> name = #{name},</if>
             <if test="model != null"> model = #{model},</if>
