@@ -62,13 +62,14 @@ CREATE TABLE `t_emp_role` (
 
 
 
+
 DROP TABLE IF EXISTS `t_permission`;
 CREATE TABLE `t_permission` (
                                 `id` int unsigned NOT NULL AUTO_INCREMENT,
                                 `name` varchar(30) NOT NULL COMMENT 'Permission Name',
                                 `code` varchar(30) NOT NULL COMMENT 'Permission Code (e.g. asset:list)',
                                 `url` varchar(30) DEFAULT NULL,
-                                `type` tinyint NOT NULL COMMENT '1=menu 2=button 3=api',
+                                `type` tinyint NOT NULL COMMENT '1=menu 2=button',
                                 `parent_id` int unsigned DEFAULT NULL,
                                 `order_no` int DEFAULT 0 COMMENT 'Order',
                                 `icon` varchar(100) DEFAULT NULL COMMENT 'Menu Icon',
@@ -78,10 +79,9 @@ CREATE TABLE `t_permission` (
                                 INDEX `idx_parent_id` (`parent_id`)
 
 ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
     COMMENT='Permission Table';
-
 
 
 DROP TABLE IF EXISTS `t_role_permission`;
