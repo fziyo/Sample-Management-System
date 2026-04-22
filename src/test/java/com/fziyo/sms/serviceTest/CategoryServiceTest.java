@@ -1,10 +1,10 @@
 package com.fziyo.sms.serviceTest;
 
-import com.fziyo.sms.mapper.AssetCategoryMapper;
+import com.fziyo.sms.mapper.CategoryMapper;
 import com.fziyo.sms.model.dto.AssetCategoryCreateDto;
-import com.fziyo.sms.model.entity.AssetCategory;
-import com.fziyo.sms.model.vo.AssetCategoryVo;
-import com.fziyo.sms.service.AssetCategoryService;
+import com.fziyo.sms.model.entity.Category;
+import com.fziyo.sms.model.vo.CategoryVo;
+import com.fziyo.sms.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -12,35 +12,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
 @Slf4j
 @SpringBootTest
-public class AssetCategoryServiceTest {
+public class CategoryServiceTest {
     @Autowired
-    private AssetCategoryService assetCategoryService;
+    private CategoryService categoryService;
     @MockitoBean
-    private AssetCategoryMapper assetCategoryMapper;
+    private CategoryMapper categoryMapper;
     
     @Test
     public void testSave() {
         AssetCategoryCreateDto assetCategoryCreateDto = new AssetCategoryCreateDto();
         assetCategoryCreateDto.setName("Wearable");
-        assetCategoryService.save(assetCategoryCreateDto);
-        ArgumentCaptor<AssetCategory> captor = ArgumentCaptor.forClass(AssetCategory.class);
-        verify(assetCategoryMapper).insert(captor.capture());
+        categoryService.save(assetCategoryCreateDto);
+        ArgumentCaptor<Category> captor = ArgumentCaptor.forClass(Category.class);
+        verify(categoryMapper).insert(captor.capture());
     }
     
     @Test
     public void testDelete() {
-        assetCategoryService.deleteById(1);
+        categoryService.deleteById(1);
     }
     
     @Test
     public void testGetAll() {
-        List<AssetCategoryVo> assetCategoriesVos = assetCategoryService.getAll();
-        assetCategoriesVos.forEach(assetCategoryVo -> log.info(assetCategoryVo.toString()));
+        List<CategoryVo> assetCategoriesVos = categoryService.getAll();
+        assetCategoriesVos.forEach(categoryVo -> log.info(categoryVo.toString()));
     }
 }

@@ -2,7 +2,7 @@ package com.fziyo.sms.service;
 
 import com.fziyo.sms.model.dto.EmpCreateDto;
 import com.fziyo.sms.model.dto.EmpUpdateDto;
-import com.fziyo.sms.model.vo.EmpVo;
+import com.fziyo.sms.model.vo.UserVo;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface EmpService {
     
     void update(EmpUpdateDto empupdatedto);
     
-    EmpVo getById(Integer id);
+    UserVo getById(Integer id);
 
-    List<EmpVo> getAll();
+    List<UserVo> getAll();
 }

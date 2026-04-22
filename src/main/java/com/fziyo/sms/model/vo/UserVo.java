@@ -5,9 +5,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class EmpVo {
+public class UserVo {
     private Integer id;
-    private String empNo;
+    private String username;
     private String name;
     private Integer gender;
     

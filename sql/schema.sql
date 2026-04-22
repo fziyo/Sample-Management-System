@@ -1,10 +1,10 @@
 
 
 
-DROP TABLE IF EXISTS `t_emp`;
-CREATE TABLE `t_emp` (
+DROP TABLE IF EXISTS `t_user`;
+CREATE TABLE `t_user` (
                          `id` int unsigned NOT NULL AUTO_INCREMENT,
-                         `emp_no` varchar(32) NOT NULL COMMENT 'Login Account',
+                         `username` varchar(32) NOT NULL COMMENT 'Login Account',
                          `pwd` varchar(64) NOT NULL COMMENT 'Login Password',
                          `name` varchar(32) NOT NULL COMMENT 'Real Name',
                          `tel` varchar(18) DEFAULT NULL COMMENT 'Tel',
@@ -20,14 +20,27 @@ CREATE TABLE `t_emp` (
                          `edit_by` int DEFAULT NULL COMMENT 'Edited By',
                          `last_login_time` datetime DEFAULT NULL COMMENT 'Last Login Time',
                          PRIMARY KEY (`id`),
-                         UNIQUE KEY `emp_no`(`emp_no`),
+                         UNIQUE KEY `username`(`username`),
                          UNIQUE KEY `tel`(`tel`),
                          UNIQUE KEY `email`(`email`)
 ) ENGINE=InnoDB
     AUTO_INCREMENT = 100000
     DEFAULT CHARSET=utf8mb4
     COLLATE=utf8mb4_general_ci
-    COMMENT='Employee Table';
+    COMMENT='userloyee Table';
+
+
+INSERT INTO t_user (id, username, pwd, name, tel, email, gender)
+VALUES
+    (100001, 'E100001', '$2a$10$7QJ8b8u3n9v7wYx3F7Y0QOePq9cM7F1YV3vWz7p9Zp3c1vXlYQz6K', 'Alice Johnson', '600100001', 'alice.johnson@company.com', 2),
+
+    (100002, 'E100002', '$2a$10$7QJ8b8u3n9v7wYx3F7Y0QOePq9cM7F1YV3vWz7p9Zp3c1vXlYQz6K', 'Michael Smith', '600100002', 'michael.smith@company.com', 1),
+
+    (100003, 'E100003', '$2a$10$7QJ8b8u3n9v7wYx3F7Y0QOePq9cM7F1YV3vWz7p9Zp3c1vXlYQz6K', 'David Brown', '600100003', 'david.brown@company.com', 1),
+
+    (100004, 'E100004', '$2a$10$7QJ8b8u3n9v7wYx3F7Y0QOePq9cM7F1YV3vWz7p9Zp3c1vXlYQz6K', 'Emma Wilson', '600100004', 'emma.wilson@company.com', 2),
+
+    (100005, 'E100005', '$2a$10$7QJ8b8u3n9v7wYx3F7Y0QOePq9cM7F1YV3vWz7p9Zp3c1vXlYQz6K', 'James Taylor', '600100005', 'james.taylor@company.com', 1);
 
 
 
@@ -52,18 +65,18 @@ INSERT INTO t_role (id, role_code, role_name) VALUES
 
 
 
-DROP TABLE IF EXISTS `t_emp_role`;
-CREATE TABLE `t_emp_role` (
-                              `emp_id` int unsigned NOT NULL,
+DROP TABLE IF EXISTS `t_user_role`;
+CREATE TABLE `t_user_role` (
+                              `user_id` int unsigned NOT NULL,
                               `role_id` int unsigned NOT NULL,
-                              PRIMARY KEY (`emp_id`, `role_id`),
+                              PRIMARY KEY (`user_id`, `role_id`),
                               INDEX `idx_role_id` (`role_id`),
-                              CONSTRAINT `fk_emp_role_emp` FOREIGN KEY (`emp_id`) REFERENCES `t_emp` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                              CONSTRAINT `fk_emp_role_role` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+                              CONSTRAINT `fk_user_role_user` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                              CONSTRAINT `fk_user_role_role` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB
     DEFAULT CHARSET=utf8mb4
     COLLATE=utf8mb4_general_ci
-    COMMENT='Employee Role Mapping';
+    COMMENT='User Role Mapping';
 
 
 
@@ -130,16 +143,16 @@ INSERT INTO t_permission VALUES (35, 'Reject Request', 'borrow-request:reject', 
 INSERT INTO t_permission VALUES (36, 'Cancel Request', 'borrow-request:cancel', NULL, 2, 31, 5, NULL, NULL);
 
 -- =============================
--- Employee Management
+-- userloyee Management
 -- =============================
-INSERT INTO t_permission VALUES (40, 'Employee Management', 'employee', NULL, 1, 0, 5, 'User', NULL);
-INSERT INTO t_permission VALUES (41, 'Employee', 'employee:menu', '/dashboard/employee', 1, 40, 1, 'UserFilled', 'EmployeeView');
+INSERT INTO t_permission VALUES (40, 'userloyee Management', 'userloyee', NULL, 1, 0, 5, 'User', NULL);
+INSERT INTO t_permission VALUES (41, 'userloyee', 'userloyee:menu', '/dashboard/userloyee', 1, 40, 1, 'UserFilled', 'userloyeeView');
 
-INSERT INTO t_permission VALUES (42, 'Employee List', 'employee:list', NULL, 2, 41, 1, NULL, NULL);
-INSERT INTO t_permission VALUES (43, 'Create Employee', 'employee:add', NULL, 2, 41, 2, NULL, NULL);
-INSERT INTO t_permission VALUES (44, 'Update Employee', 'employee:update', NULL, 2, 41, 3, NULL, NULL);
-INSERT INTO t_permission VALUES (45, 'Delete Employee', 'employee:delete', NULL, 2, 41, 4, NULL, NULL);
-INSERT INTO t_permission VALUES (46, 'View Employee', 'employee:view', NULL, 2, 41, 5, NULL, NULL);
+INSERT INTO t_permission VALUES (42, 'userloyee List', 'userloyee:list', NULL, 2, 41, 1, NULL, NULL);
+INSERT INTO t_permission VALUES (43, 'Create userloyee', 'userloyee:add', NULL, 2, 41, 2, NULL, NULL);
+INSERT INTO t_permission VALUES (44, 'Update userloyee', 'userloyee:update', NULL, 2, 41, 3, NULL, NULL);
+INSERT INTO t_permission VALUES (45, 'Delete userloyee', 'userloyee:delete', NULL, 2, 41, 4, NULL, NULL);
+INSERT INTO t_permission VALUES (46, 'View userloyee', 'userloyee:view', NULL, 2, 41, 5, NULL, NULL);
 
 -- =============================
 -- Team Management
@@ -205,23 +218,23 @@ CREATE TABLE `t_team` (
 
 
 
-DROP TABLE IF EXISTS `t_emp_team`;
-CREATE TABLE `t_emp_team`  (
-                               `emp_id` int unsigned NOT NULL,
+DROP TABLE IF EXISTS `t_user_team`;
+CREATE TABLE `t_user_team`  (
+                               `user_id` int unsigned NOT NULL,
                                `team_id` int unsigned NOT NULL,
-                               PRIMARY KEY (`emp_id`),
+                               PRIMARY KEY (`user_id`),
                                INDEX `idx_team_id`(`team_id`),
-                               CONSTRAINT `fk_emp_team_emp` FOREIGN KEY (`emp_id`) REFERENCES `t_emp` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-                               CONSTRAINT `fk_emp_team_team` FOREIGN KEY (`team_id`) REFERENCES `t_team` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+                               CONSTRAINT `fk_user_team_user` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+                               CONSTRAINT `fk_user_team_team` FOREIGN KEY (`team_id`) REFERENCES `t_team` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB
     DEFAULT CHARSET=utf8mb4
     COLLATE=utf8mb4_general_ci
-    COMMENT='Emp Team Mapping';
+    COMMENT='user Team Mapping';
 
 
 
-DROP TABLE IF EXISTS `t_asset_category`;
-CREATE TABLE `t_asset_category` (
+DROP TABLE IF EXISTS `t_category`;
+CREATE TABLE `t_category` (
                                     `id` int unsigned NOT NULL AUTO_INCREMENT,
                                     `name` varchar(50) NOT NULL COMMENT 'Category Name',
                                     `code` varchar(30) DEFAULT NULL COMMENT 'Category Code (optional)',
@@ -247,7 +260,7 @@ CREATE TABLE `t_asset` (
 
                            `category_id` int unsigned NOT NULL COMMENT 'Asset Category ID',
                            `team_id` int unsigned NOT NULL COMMENT 'Owning Team ID',
-                           `owner_id` int unsigned NOT NULL COMMENT 'Responsible Employee ID',
+                           `owner_id` int unsigned NOT NULL COMMENT 'Responsible userloyee ID',
 
                            `sn` varchar(50) unique NOT NULL COMMENT 'Serial Number',
                            `mac_addr` varchar(50) DEFAULT NULL COMMENT 'MAC Address',
@@ -277,9 +290,9 @@ CREATE TABLE `t_asset` (
                            INDEX `idx_owner_id` (`owner_id`),
                            INDEX `idx_current_user_id` (`current_user_id`),
 
-                           CONSTRAINT `fk_asset_category`
+                           CONSTRAINT `fk_category`
                                FOREIGN KEY (`category_id`)
-                                   REFERENCES `t_asset_category` (`id`)
+                                   REFERENCES `t_category` (`id`)
                                    ON DELETE RESTRICT,
 
                            CONSTRAINT `fk_asset_team`
@@ -289,12 +302,12 @@ CREATE TABLE `t_asset` (
 
                            CONSTRAINT `fk_asset_owner`
                                FOREIGN KEY (`owner_id`)
-                                   REFERENCES `t_emp` (`id`)
+                                   REFERENCES `t_user` (`id`)
                                    ON DELETE RESTRICT,
 
                            CONSTRAINT `fk_asset_user`
                                FOREIGN KEY (`current_user_id`)
-                                   REFERENCES `t_emp` (`id`)
+                                   REFERENCES `t_user` (`id`)
                                    ON DELETE SET NULL
 ) ENGINE=InnoDB
     DEFAULT CHARSET=utf8mb4
@@ -307,7 +320,7 @@ DROP TABLE IF EXISTS `t_borrow_request`;
 create table `t_borrow_request` (
                                     `id` int unsigned AUTO_INCREMENT,
                                     `asset_id` int unsigned NOT NULL COMMENT 'Asset ID',
-                                    `borrower_id` int unsigned NOT NULL COMMENT 'Borrower (emp_id)',
+                                    `borrower_id` int unsigned NOT NULL COMMENT 'Borrower (user_id)',
                                     `status` tinyint NOT NULL DEFAULT 0 COMMENT
                                         '0=PENDING  1=CANCELLED 2=APPROVED  3=REJECTED 4=IN_USE 5=RETURN_PENDING
     6=FINISHED',
@@ -335,15 +348,15 @@ create table `t_borrow_request` (
                                             ON DELETE RESTRICT,
 
                                     CONSTRAINT `fk_borrow_user`
-                                        FOREIGN KEY (`borrower_id`) REFERENCES `t_emp` (`id`)
+                                        FOREIGN KEY (`borrower_id`) REFERENCES `t_user` (`id`)
                                             ON DELETE RESTRICT,
 
                                     CONSTRAINT `fk_borrow_request_approver`
-                                        FOREIGN KEY (`request_approver_id`) REFERENCES `t_emp` (`id`)
+                                        FOREIGN KEY (`request_approver_id`) REFERENCES `t_user` (`id`)
                                             ON DELETE SET NULL,
 
                                     CONSTRAINT `fk_borrow_return_approver`
-                                        FOREIGN KEY (`return_approver_id`) REFERENCES `t_emp` (`id`)
+                                        FOREIGN KEY (`return_approver_id`) REFERENCES `t_user` (`id`)
                                             ON DELETE SET NULL
 ) ENGINE=InnoDB
     DEFAULT CHARSET=utf8mb4

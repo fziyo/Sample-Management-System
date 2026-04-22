@@ -3,7 +3,7 @@ package com.fziyo.sms.controller;
 import com.fziyo.sms.common.Result;
 import com.fziyo.sms.model.dto.EmpCreateDto;
 import com.fziyo.sms.model.dto.EmpUpdateDto;
-import com.fziyo.sms.model.vo.EmpVo;
+import com.fziyo.sms.model.vo.UserVo;
 import com.fziyo.sms.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/api/emp")
 @RestController
-public class EmpController {
+public class UserController {
     @Autowired
     private EmpService empService;
     
@@ -26,10 +26,10 @@ public class EmpController {
     }
     
     @GetMapping("/list")
-    public Result<List<EmpVo>> list() {
-        List<EmpVo> empVos = empService.getAll();
-        log.info("Get all employees success, size: {}", empVos.size());
-        return Result.success(empVos);
+    public Result<List<UserVo>> list() {
+        List<UserVo> userVos = empService.getAll();
+        log.info("Get all employees success, size: {}", userVos.size());
+        return Result.success(userVos);
     }
     
     @DeleteMapping
@@ -47,9 +47,9 @@ public class EmpController {
     }
     
     @GetMapping("/{id}")
-    public Result<EmpVo> getInfo(@PathVariable Integer id) {
-        EmpVo empVo = empService.getById(id);
+    public Result<UserVo> getInfo(@PathVariable Integer id) {
+        UserVo userVo = empService.getById(id);
         log.info("Get employee success, id: {}", id);
-        return Result.success(empVo);
+        return Result.success(userVo);
     }
 }

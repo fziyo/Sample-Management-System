@@ -1,14 +1,14 @@
 package com.fziyo.sms.service;
 
 import com.fziyo.sms.model.dto.AssetCategoryCreateDto;
-import com.fziyo.sms.model.vo.AssetCategoryVo;
+import com.fziyo.sms.model.vo.CategoryVo;
 
 import java.util.List;
 
-public interface AssetCategoryService {
+public interface CategoryService {
     void save(AssetCategoryCreateDto assetCategoryDto);
     
     void deleteById(Integer id);
     
-    List<AssetCategoryVo> getAll();
+    List<CategoryVo> getAll();
 }

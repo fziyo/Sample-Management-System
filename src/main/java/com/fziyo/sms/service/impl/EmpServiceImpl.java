@@ -2,11 +2,11 @@ package com.fziyo.sms.service.impl;
 
 import com.fziyo.sms.common.constant.ResponseCode;
 import com.fziyo.sms.common.exception.BusinessException;
-import com.fziyo.sms.mapper.EmpMapper;
+import com.fziyo.sms.mapper.UserMapper;
 import com.fziyo.sms.model.dto.EmpCreateDto;
 import com.fziyo.sms.model.dto.EmpUpdateDto;
-import com.fziyo.sms.model.entity.Emp;
-import com.fziyo.sms.model.vo.EmpVo;
+import com.fziyo.sms.model.entity.User;
+import com.fziyo.sms.model.vo.UserVo;
 import com.fziyo.sms.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -14,29 +14,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
 @Service
 public class EmpServiceImpl implements EmpService {
     @Autowired
-    private EmpMapper empMapper;
+    private UserMapper userMapper;
 
     @Override
     public void save(EmpCreateDto empcreatedto) {
-        Emp emp = new Emp();
-        BeanUtils.copyProperties(empcreatedto, emp);
-        if (empMapper.insert(emp) == 0) {
+        User user = new User();
+        BeanUtils.copyProperties(empcreatedto, user);
+        if (userMapper.insert(user) == 0) {
             throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to save emp");
         }
-        log.info("Saved employee, emp: {}", emp);
+        log.info("Saved employee, emp: {}", user);
     }
     
     @Transactional
     @Override
     public void deleteByIds(List<Integer> ids) {
-        if (empMapper.deleteByIds(ids) != ids.size()) {
+        if (userMapper.deleteByIds(ids) != ids.size()) {
             throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to delete employees");
         }
         log.info("Deleted employees, ids: {}", ids);
@@ -44,37 +43,37 @@ public class EmpServiceImpl implements EmpService {
     
     @Override
     public void update(EmpUpdateDto empUpdateDto) {
-        Emp emp = new Emp();
-        BeanUtils.copyProperties(empUpdateDto, emp);
-        if (empMapper.update(emp) == 0) {
+        User user = new User();
+        BeanUtils.copyProperties(empUpdateDto, user);
+        if (userMapper.update(user) == 0) {
             throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to update employees");
         }
-        log.info("Updated employee, emp: {}", emp);
+        log.info("Updated employee, emp: {}", user);
     }
     
     @Override
-    public EmpVo getById(Integer id) {
-        Emp emp = empMapper.getById(id);
-        if (emp == null) {
+    public UserVo getById(Integer id) {
+        User user = userMapper.getById(id);
+        if (user == null) {
             throw new BusinessException(ResponseCode.SYSTEM_ERROR, "User not found");
         }
-        EmpVo empVo = new EmpVo();
-        BeanUtils.copyProperties(emp,  empVo);
-        log.info("Get employee, emp: {}", empVo);
-        return empVo;
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(user, userVo);
+        log.info("Get employee, emp: {}", userVo);
+        return userVo;
     }
     
     @Override
-    public List<EmpVo> getAll() {
-        List<Emp> emps = empMapper.list();
-        if (emps == null) {
+    public List<UserVo> getAll() {
+        List<User> users = userMapper.list();
+        if (users == null) {
             throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Users not found");
         }
-        log.info("Get employees, emps size: {}", emps.size());
-        return emps.stream().map(emp -> {
-            EmpVo empVo = new EmpVo();
-            BeanUtils.copyProperties(emp, empVo);
-            return empVo;
+        log.info("Get employees, emps size: {}", users.size());
+        return users.stream().map(emp -> {
+            UserVo userVo = new UserVo();
+            BeanUtils.copyProperties(emp, userVo);
+            return userVo;
         }).toList();
     }
 }

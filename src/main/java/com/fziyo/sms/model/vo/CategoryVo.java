@@ -1,16 +1,12 @@
-package com.fziyo.sms.model.entity;
+package com.fziyo.sms.model.vo;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.PriorityBlockingQueue;
-
 @Data
-public class AssetCategory {
+public class CategoryVo {
     private Integer id;
     private String name;
-    private String code;
-    private Integer status;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

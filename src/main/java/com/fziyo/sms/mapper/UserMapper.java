@@ -1,27 +1,28 @@
 package com.fziyo.sms.mapper;
 
-import com.fziyo.sms.model.entity.Emp;
-import com.fziyo.sms.model.vo.EmpVo;
+import com.fziyo.sms.model.entity.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface EmpMapper {
+public interface UserMapper {
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    int insert(Emp emp);
+    int insert(User user);
 
     int deleteByIds(List<Integer> ids);
     
-    int update(Emp emp);
+    int update(User user);
     
-    Emp getById(Integer id);
+    User getById(Integer id);
     
     Integer countByTeamId(Integer id);
     
     Integer countByRoleId(Integer id);
     
-    List<Emp> list();
+    List<User> list();
+    
+    User getByEmpNo(String empNo);
     
 }

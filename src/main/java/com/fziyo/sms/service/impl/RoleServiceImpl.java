@@ -2,19 +2,17 @@ package com.fziyo.sms.service.impl;
 
 import com.fziyo.sms.common.constant.ResponseCode;
 import com.fziyo.sms.common.exception.BusinessException;
-import com.fziyo.sms.mapper.EmpMapper;
+import com.fziyo.sms.mapper.UserMapper;
 import com.fziyo.sms.mapper.RoleMapper;
 import com.fziyo.sms.model.dto.RoleCreateDto;
 import com.fziyo.sms.model.entity.Role;
 import com.fziyo.sms.model.vo.RoleVo;
 import com.fziyo.sms.service.RoleService;
-import jakarta.servlet.annotation.ServletSecurity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -23,7 +21,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleMapper roleMapper;
     @Autowired
-    private EmpMapper empMapper;
+    private UserMapper userMapper;
     
     @Override
     public void save(RoleCreateDto rolecreateDto) {
@@ -39,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
     
     @Override
     public void deleteById(Integer id) {
-        if (empMapper.countByRoleId(id) > 0) {
+        if (userMapper.countByRoleId(id) > 0) {
             throw new BusinessException(ResponseCode.CONFLICT, "Emps exist, cannot delete role");
         }
         roleMapper.deleteById(id);
