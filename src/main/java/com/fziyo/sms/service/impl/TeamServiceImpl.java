@@ -46,7 +46,7 @@ public class TeamServiceImpl implements TeamService {
     public List<TeamVo> getAll() {
         List<Team> teams = teamMapper.list();
         if (teams == null || teams.isEmpty()) {
-            throw new BusinessException(ResponseCode.NOT_FOUND, "Fail to get teams");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Teams not found");
         }
         log.info("Get teams size: {}", teams.size());
         return teams.stream().map(team -> {

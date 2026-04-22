@@ -7,8 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-
-    @Options(useGeneratedKeys = true, keyProperty = "id")
+    
     int insert(User user);
 
     int deleteByIds(List<Integer> ids);
@@ -23,6 +22,6 @@ public interface UserMapper {
     
     List<User> list();
     
-    User getByEmpNo(String empNo);
+    User getByUsername(String empNo);
     
 }

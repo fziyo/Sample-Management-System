@@ -16,6 +16,5 @@ public interface TeamMapper {
     
     int deleteById(Integer id);
     
-    
     List<Team> list();
 }

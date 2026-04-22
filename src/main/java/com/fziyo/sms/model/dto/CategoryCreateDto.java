@@ -3,6 +3,6 @@ package com.fziyo.sms.model.dto;
 import lombok.Data;
 
 @Data
-public class AssetCategoryCreateDto {
+public class CategoryCreateDto {
     private String name;
 }

@@ -1,10 +1,10 @@
 package com.fziyo.sms.serviceTest;
 
 import com.fziyo.sms.mapper.UserMapper;
-import com.fziyo.sms.model.dto.EmpCreateDto;
-import com.fziyo.sms.model.dto.EmpUpdateDto;
+import com.fziyo.sms.model.dto.UserCreateDto;
+import com.fziyo.sms.model.dto.UserUpdateDto;
 import com.fziyo.sms.model.entity.User;
-import com.fziyo.sms.service.EmpService;
+import com.fziyo.sms.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +20,18 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class UserServiceTest {
     @Autowired
-    private EmpService empService;
+    private UserService userService;
     @MockitoBean
     private UserMapper userMapper;
     @Test
     public void testSave() {
-        EmpCreateDto empCreateDto = new EmpCreateDto();
-        empCreateDto.setEmpNo("f84382");
-        empCreateDto.setGender(1);
-        empCreateDto.setName("Fuzi");
-        empCreateDto.setTeamId(1);
-        empCreateDto.setRoleId(1);
-        empService.save(empCreateDto);
+        UserCreateDto userCreateDto = new UserCreateDto();
+        userCreateDto.setEmpNo("f84382");
+        userCreateDto.setGender(1);
+        userCreateDto.setName("Fuzi");
+        userCreateDto.setTeamId(1);
+        userCreateDto.setRoleId(1);
+        userService.save(userCreateDto);
         
         ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
         verify(userMapper).insert(captor.capture());
@@ -43,14 +43,14 @@ public class UserServiceTest {
     @Test
     void testDeleteByIds() {
         List<Integer> ids = List.of(1,2,3);
-        empService.deleteByIds(ids);
+        userService.deleteByIds(ids);
         verify(userMapper).deleteByIds(ids);
     }
     
     @Test
     void testUpdate() {
-        EmpUpdateDto empUpdateDto = new EmpUpdateDto();
-        empService.update(empUpdateDto);
+        UserUpdateDto userUpdateDto = new UserUpdateDto();
+        userService.update(userUpdateDto);
         ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
         verify(userMapper).update(captor.capture());
         
@@ -63,14 +63,14 @@ public class UserServiceTest {
         
         when(userMapper.getById(1)).thenReturn(user);
         
-        empService.getById(1);
+        userService.getById(1);
         
         verify(userMapper).getById(1);
     }
     
     @Test
     void testGetAll() {
-        empService.getAll();
+        userService.getAll();
         verify(userMapper).list();
     }
 }

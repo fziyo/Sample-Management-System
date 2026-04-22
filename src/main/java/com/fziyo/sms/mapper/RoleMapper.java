@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper
 public interface RoleMapper {
     
-    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Role role);
     
     int deleteById(Integer id);

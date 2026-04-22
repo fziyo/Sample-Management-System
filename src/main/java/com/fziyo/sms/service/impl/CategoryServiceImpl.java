@@ -4,7 +4,7 @@ import com.fziyo.sms.common.constant.ResponseCode;
 import com.fziyo.sms.common.exception.BusinessException;
 import com.fziyo.sms.mapper.CategoryMapper;
 import com.fziyo.sms.mapper.AssetMapper;
-import com.fziyo.sms.model.dto.AssetCategoryCreateDto;
+import com.fziyo.sms.model.dto.CategoryCreateDto;
 import com.fziyo.sms.model.entity.Category;
 import com.fziyo.sms.model.vo.CategoryVo;
 import com.fziyo.sms.service.CategoryService;
@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
     private AssetMapper assetMapper;
     
     @Override
-    public void save(AssetCategoryCreateDto assetCategoryDto) {
+    public void save(CategoryCreateDto assetCategoryDto) {
         Category category = new Category();
         BeanUtils.copyProperties(assetCategoryDto, category);
         if (categoryMapper.insert(category) == 0) {
@@ -47,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryVo> getAll() {
         List<Category>  assetCategories= categoryMapper.list();
         if (assetCategories==null || assetCategories.isEmpty()){
-            throw new BusinessException(ResponseCode.NOT_FOUND);
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Categories not found");
         }
         log.info("Get all AssetCategory, assetCategories size: {}", assetCategories.size());
         return assetCategories.stream().map(category -> {

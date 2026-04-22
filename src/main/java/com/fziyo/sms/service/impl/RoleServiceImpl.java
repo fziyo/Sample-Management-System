@@ -38,7 +38,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void deleteById(Integer id) {
         if (userMapper.countByRoleId(id) > 0) {
-            throw new BusinessException(ResponseCode.CONFLICT, "Emps exist, cannot delete role");
+            throw new BusinessException(ResponseCode.CONFLICT, "Role has users, cannot delete role");
         }
         roleMapper.deleteById(id);
         log.info("Delete role: {}", id);
@@ -48,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleVo> getAll() {
         List<Role> roles = roleMapper.list();
         if (roles == null || roles.isEmpty()) {
-            throw new BusinessException(ResponseCode.NOT_FOUND, "Fail to get roles");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Roles not found");
         }
         log.info("Get roles size: {}", roles.size());
         return roles.stream().map(role -> {

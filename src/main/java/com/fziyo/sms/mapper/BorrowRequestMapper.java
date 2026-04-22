@@ -13,12 +13,10 @@ public interface  BorrowRequestMapper {
     // 0=PENDING
     int insert(BorrowRequest borrowRequest);
     
-    @Select("Select * from borrow_request where id = #{id}")
     BorrowRequest getById(int id);
     
     int deleteByIds(List<Integer> ids);
     
-    @Select("Select * from borrow_request")
     List<BorrowRequest> list();
     
     // 1=CANCELLED

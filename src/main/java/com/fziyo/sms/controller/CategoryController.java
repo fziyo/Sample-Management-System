@@ -1,7 +1,7 @@
 package com.fziyo.sms.controller;
 
 import com.fziyo.sms.common.Result;
-import com.fziyo.sms.model.dto.AssetCategoryCreateDto;
+import com.fziyo.sms.model.dto.CategoryCreateDto;
 import com.fziyo.sms.model.vo.CategoryVo;
 import com.fziyo.sms.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/api/asset-category")
+@RequestMapping("/api/category")
 @RestController
-public class AssetCategoryController {
+public class CategoryController {
     @Autowired
     private CategoryService categoryService;
     
     @PostMapping
-    public Result<Void> add(@RequestBody AssetCategoryCreateDto assetCategoryCreateDto) {
-        categoryService.save(assetCategoryCreateDto);
-        log.info("Asset category created successfully {}", assetCategoryCreateDto);
+    public Result<Void> add(@RequestBody CategoryCreateDto categoryCreateDto) {
+        categoryService.save(categoryCreateDto);
+        log.info("Asset category created successfully {}", categoryCreateDto);
         return Result.success();
     }
     

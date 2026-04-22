@@ -4,10 +4,10 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fziyo.sms.mapper.UserMapper">
     <insert id="insert">
-        Insert into t_emp(emp_no, name, gender, pwd, email) values(#{empNo}, #{name}, #{gender}, #{pwd}, #{email})
+        Insert into t_user(username, name, gender, pwd, email) values(#{empNo}, #{name}, #{gender}, #{pwd}, #{email})
     </insert>
     <delete id="deleteByIds">
-        delete from t_emp where id in
+        delete from t_user where id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
@@ -16,40 +16,40 @@
     <select id="getById" resultType="com.fziyo.sms.model.entity.User">
         select
             e.*, t.team_name teamName, r.role_name roleName
-            from t_emp e
-            left join t_emp_team et on e.id = et.emp_id
-            left join t_emp_role er on e.id = er.emp_id
+            from t_user e
+            left join t_user_team et on e.id = et.emp_id
+            left join t_user_role er on e.id = er.emp_id
             left join t_team t on t.id = et.team_id
             left join t_role r on r.id = er.role_id
         where e.id = #{id}
     </select>
 
     <select id="countByTeamId" resultType="java.lang.Integer">
-        select count(*) from t_emp where team_id = #{id}
+        select count(*) from t_user where team_id = #{id}
     </select>
 
     <select id="countByRoleId" resultType="java.lang.Integer">
-        select count(*) from t_emp where role_id = #{id}
+        select count(*) from t_user where role_id = #{id}
     </select>
 
     <select id="list" resultType="com.fziyo.sms.model.entity.User">
         select
             e.*, t.team_name teamName, r.role_name roleName
-        from t_emp e
-        left join t_emp_team et on e.id = et.emp_id
-        left join t_emp_role er on e.id = er.emp_id
+        from t_user e
+        left join t_user_team et on e.id = et.emp_id
+        left join t_user_role er on e.id = er.emp_id
         left join t_team t on t.id = et.team_id
         left join t_role r on r.id = er.role_id
     </select>
 
-    <select id="getByEmpNo" resultType="com.fziyo.sms.model.entity.User">
+    <select id="getByUsername" resultType="com.fziyo.sms.model.entity.User">
         select *
-        from t_emp
-        where emp_no = #{empNo}
+        from t_user
+        where username = #{empNo}
     </select>
 
     <update id="update">
-        update t_emp
+        update t_user
         <set>
             <if test="pwd != null and pwd != ''">pwd = #{pwd},</if>
             <if test="name != null and name != ''">name = #{name},</if>

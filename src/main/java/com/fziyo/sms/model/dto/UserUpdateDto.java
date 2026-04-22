@@ -3,10 +3,11 @@ package com.fziyo.sms.model.dto;
 import lombok.Data;
 
 @Data
-public class EmpCreateDto {
-    private String empNo;
+public class UserUpdateDto {
+    private Integer id;
     private String name;
     private Integer gender;
     private Integer teamId;
     private Integer roleId;
 }
+// not allowed to change empNo

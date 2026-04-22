@@ -36,7 +36,7 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
     public BorrowRequestVo getById(Integer id) {
         BorrowRequest borrowRequest = borrowRequestMapper.getById(id);
         if (borrowRequest == null) {
-            throw new BusinessException(ResponseCode.NOT_FOUND, "BorrowRequest not found");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Borrow request not found");
         }
         BorrowRequestVo borrowRequestVo = new BorrowRequestVo();
         BeanUtils.copyProperties(borrowRequest,borrowRequestVo);
@@ -48,7 +48,7 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
     public List<BorrowRequestVo> getAll() {
         List<BorrowRequest> borrowRequests = borrowRequestMapper.list();
         if (borrowRequests == null || borrowRequests.isEmpty()) {
-            throw new BusinessException(ResponseCode.NOT_FOUND, "No BorrowRequest found");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Borrow requests not found");
         }
         log.info("Get all BorrowRequests size: {}", borrowRequests.size());
         return borrowRequests.stream().map(borrowRequest -> {
@@ -64,10 +64,10 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
         // todo: replace approverId with context userId
         // only borrower can cancel the request
         if (borrowRequest == null || borrowRequest.getBorrowerId() != 1) {
-            throw new BusinessException(ResponseCode.NOT_FOUND, "BorrowRequest not found");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Borrow request not found");
         }
         if (borrowRequestMapper.cancelRequest(id, BorrowRequestStatus.CANCELLED) == 0) {
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to cancel BorrowRequest");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to cancel borrow request");
         }
         log.info("Cancel BorrowRequest: {}", borrowRequest);
     }
@@ -76,7 +76,7 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
     public void approveRequest(Integer id) {
         // todo: replace approverId with context userId
         if (borrowRequestMapper.approveRequest(id, BorrowRequestStatus.APPROVED, 1) == 0) {
-            throw new BusinessException(ResponseCode.NOT_FOUND, "BorrowRequest not found");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Borrow request not found");
         }
         log.info("Approve BorrowRequest: {}", id);
     }
@@ -107,7 +107,7 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
             throw new BusinessException(ResponseCode.NOT_FOUND, "BorrowRequest not found");
         }
         if (borrowRequestMapper.requestReturn(id, BorrowRequestStatus.RETURN_PENDING) == 0) {
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to return BorrowRequest");
+            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Failed to return Borrow");
         }
         log.info("Return BorrowRequest: {}", id);
     }
@@ -116,7 +116,7 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
     public void approveReturn(Integer id) {
         // todo: replace approverId with context userId
         if (borrowRequestMapper.approveReturn(id, BorrowRequestStatus.FINISHED, 1) == 0) {
-            throw new BusinessException(ResponseCode.NOT_FOUND, "BorrowRequest not found");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Borrow request not found");
         }
         log.info("Approve BorrowRequest return: {}", id);
     }

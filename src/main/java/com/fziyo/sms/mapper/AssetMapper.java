@@ -17,10 +17,8 @@ public interface AssetMapper {
     
     List<Asset> list();
     
-    @Select("Select * from asset where id = #{id}")
     Asset getById(Integer id);
     
-    @Select("Select count(*) from asset where category_id = #{id}")
     Integer countByCategoryId(Integer id);
     
     Integer countByCategoryIds(List<Integer> ids);
