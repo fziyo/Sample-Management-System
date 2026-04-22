@@ -45,6 +45,11 @@ CREATE TABLE `t_role` (
     COLLATE=utf8mb4_general_ci
     COMMENT='Role Table';
 
+INSERT INTO t_role (id, role_code, role_name) VALUES
+                                                  (1, 'ADMIN', 'Administrator'),
+                                                  (2, 'ASSET_MANAGER', 'Asset Manager'),
+                                                  (3, 'USER', 'Normal User');
+
 
 
 DROP TABLE IF EXISTS `t_emp_role`;
@@ -82,6 +87,89 @@ CREATE TABLE `t_permission` (
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_general_ci
     COMMENT='Permission Table';
+
+
+-- =============================
+-- Dashboard
+-- =============================
+INSERT INTO t_permission VALUES (1, 'Dashboard', 'dashboard', '/dashboard', 1, 0, 1, 'HomeFilled', 'DashboardView');
+
+-- =============================
+-- Asset Management
+-- =============================
+INSERT INTO t_permission VALUES (10, 'Asset Management', 'asset', NULL, 1, 0, 2, 'Monitor', NULL);
+INSERT INTO t_permission VALUES (11, 'Asset', 'asset:menu', '/dashboard/asset', 1, 10, 1, 'Cpu', 'AssetView');
+
+INSERT INTO t_permission VALUES (12, 'Asset List', 'asset:list', NULL, 2, 11, 1, NULL, NULL);
+INSERT INTO t_permission VALUES (13, 'Create Asset', 'asset:add', NULL, 2, 11, 2, NULL, NULL);
+INSERT INTO t_permission VALUES (14, 'Update Asset', 'asset:update', NULL, 2, 11, 3, NULL, NULL);
+INSERT INTO t_permission VALUES (15, 'Delete Asset', 'asset:delete', NULL, 2, 11, 4, NULL, NULL);
+INSERT INTO t_permission VALUES (16, 'View Asset', 'asset:view', NULL, 2, 11, 5, NULL, NULL);
+
+-- =============================
+-- Asset Category
+-- =============================
+INSERT INTO t_permission VALUES (20, 'Asset Category', 'asset-category', NULL, 1, 0, 3, 'Collection', NULL);
+INSERT INTO t_permission VALUES (21, 'Category', 'asset-category:menu', '/dashboard/category', 1, 20, 1, 'Grid', 'CategoryView');
+
+INSERT INTO t_permission VALUES (22, 'Category List', 'asset-category:list', NULL, 2, 21, 1, NULL, NULL);
+INSERT INTO t_permission VALUES (23, 'Create Category', 'asset-category:add', NULL, 2, 21, 2, NULL, NULL);
+INSERT INTO t_permission VALUES (24, 'Update Category', 'asset-category:update', NULL, 2, 21, 3, NULL, NULL);
+INSERT INTO t_permission VALUES (25, 'Delete Category', 'asset-category:delete', NULL, 2, 21, 4, NULL, NULL);
+
+-- =============================
+-- Borrow Request
+-- =============================
+INSERT INTO t_permission VALUES (30, 'Borrow Request', 'borrow-request', NULL, 1, 0, 4, 'Document', NULL);
+INSERT INTO t_permission VALUES (31, 'Request', 'borrow-request:menu', '/dashboard/borrow', 1, 30, 1, 'Tickets', 'BorrowView');
+
+INSERT INTO t_permission VALUES (32, 'Request List', 'borrow-request:list', NULL, 2, 31, 1, NULL, NULL);
+INSERT INTO t_permission VALUES (33, 'Create Request', 'borrow-request:create', NULL, 2, 31, 2, NULL, NULL);
+INSERT INTO t_permission VALUES (34, 'Approve Request', 'borrow-request:approve', NULL, 2, 31, 3, NULL, NULL);
+INSERT INTO t_permission VALUES (35, 'Reject Request', 'borrow-request:reject', NULL, 2, 31, 4, NULL, NULL);
+INSERT INTO t_permission VALUES (36, 'Cancel Request', 'borrow-request:cancel', NULL, 2, 31, 5, NULL, NULL);
+
+-- =============================
+-- Employee Management
+-- =============================
+INSERT INTO t_permission VALUES (40, 'Employee Management', 'employee', NULL, 1, 0, 5, 'User', NULL);
+INSERT INTO t_permission VALUES (41, 'Employee', 'employee:menu', '/dashboard/employee', 1, 40, 1, 'UserFilled', 'EmployeeView');
+
+INSERT INTO t_permission VALUES (42, 'Employee List', 'employee:list', NULL, 2, 41, 1, NULL, NULL);
+INSERT INTO t_permission VALUES (43, 'Create Employee', 'employee:add', NULL, 2, 41, 2, NULL, NULL);
+INSERT INTO t_permission VALUES (44, 'Update Employee', 'employee:update', NULL, 2, 41, 3, NULL, NULL);
+INSERT INTO t_permission VALUES (45, 'Delete Employee', 'employee:delete', NULL, 2, 41, 4, NULL, NULL);
+INSERT INTO t_permission VALUES (46, 'View Employee', 'employee:view', NULL, 2, 41, 5, NULL, NULL);
+
+-- =============================
+-- Team Management
+-- =============================
+INSERT INTO t_permission VALUES (50, 'Team Management', 'team', NULL, 1, 0, 6, 'OfficeBuilding', NULL);
+INSERT INTO t_permission VALUES (51, 'Team', 'team:menu', '/dashboard/team', 1, 50, 1, 'School', 'TeamView');
+
+INSERT INTO t_permission VALUES (52, 'Team List', 'team:list', NULL, 2, 51, 1, NULL, NULL);
+INSERT INTO t_permission VALUES (53, 'Create Team', 'team:add', NULL, 2, 51, 2, NULL, NULL);
+INSERT INTO t_permission VALUES (54, 'Delete Team', 'team:delete', NULL, 2, 51, 3, NULL, NULL);
+
+-- =============================
+-- Role Management
+-- =============================
+INSERT INTO t_permission VALUES (60, 'Role Management', 'role', NULL, 1, 0, 7, 'Lock', NULL);
+INSERT INTO t_permission VALUES (61, 'Role', 'role:menu', '/dashboard/role', 1, 60, 1, 'UserFilled', 'RoleView');
+
+INSERT INTO t_permission VALUES (62, 'Role List', 'role:list', NULL, 2, 61, 1, NULL, NULL);
+INSERT INTO t_permission VALUES (63, 'Create Role', 'role:add', NULL, 2, 61, 2, NULL, NULL);
+INSERT INTO t_permission VALUES (64, 'Delete Role', 'role:delete', NULL, 2, 61, 3, NULL, NULL);
+
+-- =============================
+-- System Config（放最后）
+-- =============================
+INSERT INTO t_permission VALUES (70, 'System Config', 'system-config', NULL, 1, 0, 8, 'Tools', NULL);
+INSERT INTO t_permission VALUES (71, 'Config', 'system-config:menu', '/dashboard/system', 1, 70, 1, 'Setting', 'SystemView');
+
+INSERT INTO t_permission VALUES (72, 'Config View', 'system:view', NULL, 2, 71, 1, NULL, NULL);
+INSERT INTO t_permission VALUES (73, 'Config Update', 'system:update', NULL, 2, 71, 2, NULL, NULL);
+
 
 
 DROP TABLE IF EXISTS `t_role_permission`;
