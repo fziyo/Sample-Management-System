@@ -6,6 +6,7 @@ import com.fziyo.sms.model.vo.RoleVo;
 import com.fziyo.sms.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
     
+    @PreAuthorize(value = "hasAuthority('role:add)")
     @PostMapping
     public Result<Void> add(@RequestBody  RoleCreateDto roleCreateDto) {
         roleService.save(roleCreateDto);
@@ -24,6 +26,7 @@ public class RoleController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('role:delete)")
     @DeleteMapping("/{id}")
     public Result<Void> delete(@PathVariable Integer id) {
         roleService.deleteById(id);
@@ -31,6 +34,7 @@ public class RoleController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('role:view)")
     @GetMapping
     public Result<List<RoleVo>> list() {
         List<RoleVo> roleVos = roleService.getAll();

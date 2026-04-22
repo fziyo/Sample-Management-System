@@ -8,6 +8,7 @@ import com.fziyo.sms.model.vo.AssetVo;
 import com.fziyo.sms.service.AssetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class AssetController {
     @Autowired
     private AssetService assetService;
     
+    @PreAuthorize(value = "hasAuthority('asset:add)")
     @PostMapping
     public Result<Void> add(@RequestBody AssetCreateDto assetCreateDto) {
         assetService.save(assetCreateDto);
@@ -26,6 +28,7 @@ public class AssetController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('asset:delete)")
     @DeleteMapping
     public Result<Void> deleteBatch(@RequestParam List<Integer> ids) {
         assetService.deleteByIds(ids);
@@ -33,6 +36,7 @@ public class AssetController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('asset:update)")
     @PutMapping
     public Result<Void> update(@RequestBody AssetUpdateDto assetUpdateDto) {
         assetService.update(assetUpdateDto);
@@ -40,6 +44,7 @@ public class AssetController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('asset:view)")
     @GetMapping("/{id}")
     public Result<AssetVo> getInfo(@PathVariable Integer id) {
         AssetVo assetVo = assetService.getById(id);
@@ -47,6 +52,7 @@ public class AssetController {
         return Result.success(assetVo);
     }
     
+    @PreAuthorize(value = "hasAuthority('asset:view)")
     @GetMapping
     public Result<List<AssetVo>> list() {
         List<AssetVo> assetVos = assetService.getAll();

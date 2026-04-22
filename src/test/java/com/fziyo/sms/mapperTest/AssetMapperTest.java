@@ -22,7 +22,7 @@ public class AssetMapperTest {
         asset.setCode("AS01");
         asset.setName("iPhone 15");
         asset.setModel("A3090");
-        asset.setCategoryId(2);
+        asset.setCategoryId(1);
         asset.setTeamId(1001);
         asset.setOwnerId(100001);
         asset.setSn("SN123456789");

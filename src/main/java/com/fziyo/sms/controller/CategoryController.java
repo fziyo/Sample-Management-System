@@ -6,6 +6,7 @@ import com.fziyo.sms.model.vo.CategoryVo;
 import com.fziyo.sms.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
     
+    @PreAuthorize(value = "hasAuthority('category:add)")
     @PostMapping
     public Result<Void> add(@RequestBody CategoryCreateDto categoryCreateDto) {
         categoryService.save(categoryCreateDto);
@@ -24,6 +26,7 @@ public class CategoryController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('category:delete)")
     @DeleteMapping("/{id}")
     public Result<Void> delete(@PathVariable Integer id) {
         categoryService.deleteById(id);
@@ -31,6 +34,7 @@ public class CategoryController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('category:view)")
     @GetMapping
     public Result<List<CategoryVo>> list() {
         List<CategoryVo> categoryVos = categoryService.getAll();

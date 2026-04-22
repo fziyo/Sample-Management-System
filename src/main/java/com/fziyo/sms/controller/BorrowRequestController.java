@@ -6,17 +6,19 @@ import com.fziyo.sms.model.vo.BorrowRequestVo;
 import com.fziyo.sms.service.BorrowRequestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/api/request")
+@RequestMapping("/api/borrow")
 @RestController
 public class BorrowRequestController {
     @Autowired
     private BorrowRequestService borrowRequestService;
     
+    @PreAuthorize(value = "hasAuthority('borrow-request:create')")
     @PostMapping
     public Result<Void> save(@RequestBody BorrowRequestCreateDto borrowRequestCreateDto) {
         borrowRequestService.save(borrowRequestCreateDto);
@@ -24,6 +26,7 @@ public class BorrowRequestController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('borrow-request:view')")
     @GetMapping
     public Result<List<BorrowRequestVo>> list() {
         List<BorrowRequestVo> brVos = borrowRequestService.getAll();
@@ -31,6 +34,7 @@ public class BorrowRequestController {
         return Result.success(brVos);
     }
     
+    @PreAuthorize(value = "hasAuthority('borrow-request:approve')")
     @PostMapping("/{id}/approve")
     public Result<Void> approveRequest(@PathVariable Integer id) {
         borrowRequestService.approveRequest(id);
@@ -38,6 +42,7 @@ public class BorrowRequestController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('borrow-request:cancel')")
     @PostMapping("/{id}/cancel")
     public Result<Void> cancelRequest(@PathVariable Integer id) {
         borrowRequestService.cancelRequest(id);
@@ -45,6 +50,7 @@ public class BorrowRequestController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('borrow-request:reject')")
     @PostMapping("/{id}/reject")
     public Result<Void> rejectRequest(@PathVariable Integer id) {
         borrowRequestService.rejectRequest(id);
@@ -52,6 +58,7 @@ public class BorrowRequestController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('borrow-request:confirm')")
     @PostMapping("/{id}/confirm")
     public Result<Void> confirmBorrow(@PathVariable Integer id) {
         borrowRequestService.confirmBorrow(id);
@@ -59,6 +66,7 @@ public class BorrowRequestController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('borrow-request:return')")
     @PostMapping("/{id}/return/request")
     public Result<Void> requestReturn(@PathVariable Integer id) {
         borrowRequestService.requestReturn(id);
@@ -66,6 +74,7 @@ public class BorrowRequestController {
         return Result.success();
     }
     
+    @PreAuthorize(value = "hasAuthority('borrow-request:approve-return')")
     @PostMapping("/{id}/return/approve")
     public Result<Void> approveReturn(@PathVariable  Integer id) {
         borrowRequestService.approveReturn(id);

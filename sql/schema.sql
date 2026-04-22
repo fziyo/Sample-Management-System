@@ -3,30 +3,30 @@
 
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
-                         `id` int unsigned NOT NULL AUTO_INCREMENT,
-                         `username` varchar(32) NOT NULL COMMENT 'Login Account',
-                         `pwd` varchar(64) NOT NULL COMMENT 'Login Password',
-                         `name` varchar(32) NOT NULL COMMENT 'Real Name',
-                         `tel` varchar(18) DEFAULT NULL COMMENT 'Tel',
-                         `email` varchar(64)  NOT NULL COMMENT 'Email',
-                         `gender` tinyint  NOT NULL DEFAULT 0 comment '0 Unknown 1 Male 2 Female',
-                         `account_non_expired` tinyint NOT NULL DEFAULT 1 COMMENT '0 Expired 1 Normal',
-                         `credentials_non_expired` tinyint NOT NULL DEFAULT 1 COMMENT '0 Expired 1 Normal',
-                         `account_non_locked` tinyint NOT NULL DEFAULT 1 COMMENT '0 Locked 1 Normal',
-                         `account_enabled` tinyint NOT NULL DEFAULT 1 COMMENT '0 Disabled 1 Enabled',
-                         `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
-                         `create_by` int DEFAULT NULL COMMENT 'Created By',
-                         `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Edite Time',
-                         `edit_by` int DEFAULT NULL COMMENT 'Edited By',
-                         `last_login_time` datetime DEFAULT NULL COMMENT 'Last Login Time',
-                         PRIMARY KEY (`id`),
-                         UNIQUE KEY `username`(`username`),
-                         UNIQUE KEY `tel`(`tel`),
-                         UNIQUE KEY `email`(`email`)
+                          `id` int unsigned NOT NULL AUTO_INCREMENT,
+                          `username` varchar(32) NOT NULL COMMENT 'Login Account',
+                          `pwd` varchar(64) NOT NULL COMMENT 'Login Password',
+                          `name` varchar(32) NOT NULL COMMENT 'Real Name',
+                          `tel` varchar(18) DEFAULT NULL COMMENT 'Tel',
+                          `email` varchar(64)  NOT NULL COMMENT 'Email',
+                          `gender` tinyint  NOT NULL DEFAULT 0 comment '0 Unknown 1 Male 2 Female',
+                          `account_non_expired` tinyint NOT NULL DEFAULT 1 COMMENT '0 Expired 1 Normal',
+                          `credentials_non_expired` tinyint NOT NULL DEFAULT 1 COMMENT '0 Expired 1 Normal',
+                          `account_non_locked` tinyint NOT NULL DEFAULT 1 COMMENT '0 Locked 1 Normal',
+                          `account_enabled` tinyint NOT NULL DEFAULT 1 COMMENT '0 Disabled 1 Enabled',
+                          `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
+                          `create_by` int DEFAULT NULL COMMENT 'Created By',
+                          `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Edite Time',
+                          `edit_by` int DEFAULT NULL COMMENT 'Edited By',
+                          `last_login_time` datetime DEFAULT NULL COMMENT 'Last Login Time',
+                          PRIMARY KEY (`id`),
+                          UNIQUE KEY `username`(`username`),
+                          UNIQUE KEY `tel`(`tel`),
+                          UNIQUE KEY `email`(`email`)
 ) ENGINE=InnoDB
-    AUTO_INCREMENT = 100000
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci
+  AUTO_INCREMENT = 100000
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
     COMMENT='userloyee Table';
 
 
@@ -54,8 +54,8 @@ CREATE TABLE `t_role` (
                           PRIMARY KEY (`id`),
                           UNIQUE KEY `uk_role_code` (`role_code`)
 ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
     COMMENT='Role Table';
 
 INSERT INTO t_role (id, role_code, role_name) VALUES
@@ -67,18 +67,29 @@ INSERT INTO t_role (id, role_code, role_name) VALUES
 
 DROP TABLE IF EXISTS `t_user_role`;
 CREATE TABLE `t_user_role` (
-                              `user_id` int unsigned NOT NULL,
-                              `role_id` int unsigned NOT NULL,
-                              PRIMARY KEY (`user_id`, `role_id`),
-                              INDEX `idx_role_id` (`role_id`),
-                              CONSTRAINT `fk_user_role_user` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                              CONSTRAINT `fk_user_role_role` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+                               `user_id` int unsigned NOT NULL,
+                               `role_id` int unsigned NOT NULL,
+                               PRIMARY KEY (`user_id`, `role_id`),
+                               INDEX `idx_role_id` (`role_id`),
+                               CONSTRAINT `fk_user_role_user` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                               CONSTRAINT `fk_user_role_role` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
     COMMENT='User Role Mapping';
 
+INSERT INTO t_user_role (user_id, role_id)
+VALUES
+-- Admin
+(100001, 1),
 
+-- Asset Manager
+(100002, 2),
+(100003, 2),
+
+-- Normal User
+(100004, 3),
+(100005, 3);
 
 
 DROP TABLE IF EXISTS `t_permission`;
@@ -194,11 +205,43 @@ CREATE TABLE `t_role_permission` (
                                      CONSTRAINT `fk_role_permission_role` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
                                      CONSTRAINT `fk_role_permission_permission` FOREIGN KEY (`permission_id`) REFERENCES `t_permission` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
     COMMENT='Role Permission Mapping';
 
+INSERT INTO t_role_permission (role_id, permission_id)
+SELECT 1, id FROM t_permission;
 
+INSERT INTO t_role_permission (role_id, permission_id) VALUES
+
+-- Dashboard
+(2, 1),
+
+-- Asset
+(2, 10),(2, 11),(2, 12),(2, 13),(2, 14),(2, 15),(2, 16),
+
+-- Category
+(2, 20),(2, 21),(2, 22),(2, 23),(2, 24),(2, 25),
+
+-- Borrow Request（全流程）
+(2, 30),(2, 31),(2, 32),(2, 33),(2, 34),(2, 35),(2, 36),
+
+-- Employee（只查看）
+(2, 40),(2, 41),(2, 42),(2, 46),
+
+-- Team（只查看）
+(2, 50),(2, 51),(2, 52);
+
+INSERT INTO t_role_permission (role_id, permission_id) VALUES
+
+-- Dashboard
+(3, 1),
+
+-- Asset（只读）
+(3, 10),(3, 11),(3, 12),(3, 16),
+
+-- Borrow Request（用户操作）
+(3, 30),(3, 31),(3, 32),(3, 33),(3, 36);
 
 DROP TABLE IF EXISTS `t_team`;
 CREATE TABLE `t_team` (
@@ -211,42 +254,42 @@ CREATE TABLE `t_team` (
                           PRIMARY KEY (`id`),
                           UNIQUE KEY `uk_team_name` (`team_name`)
 ) ENGINE=InnoDB
-    AUTO_INCREMENT=1001
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci
+  AUTO_INCREMENT=1001
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
     COMMENT='Team Table';
 
 
 
 DROP TABLE IF EXISTS `t_user_team`;
 CREATE TABLE `t_user_team`  (
-                               `user_id` int unsigned NOT NULL,
-                               `team_id` int unsigned NOT NULL,
-                               PRIMARY KEY (`user_id`),
-                               INDEX `idx_team_id`(`team_id`),
-                               CONSTRAINT `fk_user_team_user` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-                               CONSTRAINT `fk_user_team_team` FOREIGN KEY (`team_id`) REFERENCES `t_team` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+                                `user_id` int unsigned NOT NULL,
+                                `team_id` int unsigned NOT NULL,
+                                PRIMARY KEY (`user_id`),
+                                INDEX `idx_team_id`(`team_id`),
+                                CONSTRAINT `fk_user_team_user` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+                                CONSTRAINT `fk_user_team_team` FOREIGN KEY (`team_id`) REFERENCES `t_team` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
     COMMENT='user Team Mapping';
 
 
 
 DROP TABLE IF EXISTS `t_category`;
 CREATE TABLE `t_category` (
-                                    `id` int unsigned NOT NULL AUTO_INCREMENT,
-                                    `name` varchar(50) NOT NULL COMMENT 'Category Name',
-                                    `code` varchar(30) DEFAULT NULL COMMENT 'Category Code (optional)',
-                                    `status` tinyint NOT NULL DEFAULT 1 COMMENT '0=Disabled 1=Enabled',
-                                    `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-                                    `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                                    PRIMARY KEY (`id`),
-                                    UNIQUE KEY `uk_category_name` (`name`)
+                              `id` int unsigned NOT NULL AUTO_INCREMENT,
+                              `name` varchar(50) NOT NULL COMMENT 'Category Name',
+                              `code` varchar(30) DEFAULT NULL COMMENT 'Category Code (optional)',
+                              `status` tinyint NOT NULL DEFAULT 1 COMMENT '0=Disabled 1=Enabled',
+                              `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+                              `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                              PRIMARY KEY (`id`),
+                              UNIQUE KEY `uk_category_name` (`name`)
 
 ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
     COMMENT='Asset Category Table';
 
 
@@ -310,8 +353,8 @@ CREATE TABLE `t_asset` (
                                    REFERENCES `t_user` (`id`)
                                    ON DELETE SET NULL
 ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
     COMMENT='Asset Table';
 
 
@@ -359,8 +402,8 @@ create table `t_borrow_request` (
                                         FOREIGN KEY (`return_approver_id`) REFERENCES `t_user` (`id`)
                                             ON DELETE SET NULL
 ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_general_ci
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci
     COMMENT='Borrow Request Table';
 
 -- user request borrow(pending/cancelled)：create_time > approver confirm(approved/rejected)：request_approver_id + request_approve_time > user confirm receive device(in_use)：borrow_start_time >

@@ -103,7 +103,7 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
     public void requestReturn(Integer id) {
         BorrowRequest borrowRequest = borrowRequestMapper.getById(id);
         // todo: replace approverId with context userId
-        if ( borrowRequest == null || borrowRequest.getBorrowerId() != 1) {
+        if ( borrowRequest == null || borrowRequest.getBorrowerId() != 100001) {
             throw new BusinessException(ResponseCode.NOT_FOUND, "BorrowRequest not found");
         }
         if (borrowRequestMapper.requestReturn(id, BorrowRequestStatus.RETURN_PENDING) == 0) {
@@ -116,7 +116,7 @@ public class BorrowRequestServiceImpl implements BorrowRequestService {
     public void approveReturn(Integer id) {
         // todo: replace approverId with context userId
         if (borrowRequestMapper.approveReturn(id, BorrowRequestStatus.FINISHED, 1) == 0) {
-            throw new BusinessException(ResponseCode.NOT_FOUND, "Borrow request not found");
+            throw new BusinessException(ResponseCode.NOT_FOUND, "Failed to approve return");
         }
         log.info("Approve BorrowRequest return: {}", id);
     }

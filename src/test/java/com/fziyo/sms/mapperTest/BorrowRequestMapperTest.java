@@ -16,7 +16,7 @@ public class BorrowRequestMapperTest {
     void testInsert() {
         BorrowRequest borrowRequest = new BorrowRequest();
         borrowRequest.setStatus(BorrowRequestStatus.PENDING);
-        borrowRequest.setAssetId(8);
+        borrowRequest.setAssetId(3);
         borrowRequest.setBorrowerId(100001);
         borrowRequestMapper.insert(borrowRequest);
     }
