@@ -71,6 +71,12 @@
             <artifactId>hutool-json</artifactId>
             <version>5.8.32</version>
         </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-jwt</artifactId>
+            <version>5.8.32</version>
+        </dependency>
     </dependencies>
 
     <build>

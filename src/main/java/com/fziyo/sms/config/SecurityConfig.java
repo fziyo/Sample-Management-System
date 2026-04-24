@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,18 +32,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                    .csrf(AbstractHttpConfigurer::disable)
+                   .sessionManagement((sessionManagement) -> {
+                       sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                   })
                    .formLogin(formLogin -> {
                        formLogin
-                           .loginProcessingUrl("/user/login")  // SC框架去哪里接收登录参数
+                           .loginProcessingUrl("/user/login")  // where SC get username and password
                            .successHandler(authenticationSuccessHandler)
                            .failureHandler(authenticationFailureHandler);
                        
                    })
-                   // 把默认的拦截所有接口访问的登录检查行为，再加回来。
                    .authorizeHttpRequests(authorizeRequests -> {
-                       // 任何请求都需要认证
                        authorizeRequests
-                           // 其他路径都需要认证登录
                            .anyRequest().authenticated();
                    })
                    .build();
