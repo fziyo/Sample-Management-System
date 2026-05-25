@@ -18,7 +18,7 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
     
-    @PreAuthorize(value = "hasAuthority('role:add)")
+    @PreAuthorize(value = "hasAuthority('role:add')")
     @PostMapping
     public Result<Void> add(@RequestBody  RoleCreateDto roleCreateDto) {
         roleService.save(roleCreateDto);
@@ -26,7 +26,7 @@ public class RoleController {
         return Result.success();
     }
     
-    @PreAuthorize(value = "hasAuthority('role:delete)")
+    @PreAuthorize(value = "hasAuthority('role:delete')")
     @DeleteMapping("/{id}")
     public Result<Void> delete(@PathVariable Integer id) {
         roleService.deleteById(id);
@@ -34,7 +34,7 @@ public class RoleController {
         return Result.success();
     }
     
-    @PreAuthorize(value = "hasAuthority('role:view)")
+    @PreAuthorize(value = "hasAuthority('role:view')")
     @GetMapping
     public Result<List<RoleVo>> list() {
         List<RoleVo> roleVos = roleService.getAll();

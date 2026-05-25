@@ -20,7 +20,7 @@ public class AssetController {
     @Autowired
     private AssetService assetService;
     
-    @PreAuthorize(value = "hasAuthority('asset:add)")
+    @PreAuthorize(value = "hasAuthority('asset:add')")
     @PostMapping
     public Result<Void> add(@RequestBody AssetCreateDto assetCreateDto) {
         assetService.save(assetCreateDto);
@@ -28,7 +28,7 @@ public class AssetController {
         return Result.success();
     }
     
-    @PreAuthorize(value = "hasAuthority('asset:delete)")
+    @PreAuthorize(value = "hasAuthority('asset:delete')")
     @DeleteMapping
     public Result<Void> deleteBatch(@RequestParam List<Integer> ids) {
         assetService.deleteByIds(ids);
@@ -36,7 +36,7 @@ public class AssetController {
         return Result.success();
     }
     
-    @PreAuthorize(value = "hasAuthority('asset:update)")
+    @PreAuthorize(value = "hasAuthority('asset:update')")
     @PutMapping
     public Result<Void> update(@RequestBody AssetUpdateDto assetUpdateDto) {
         assetService.update(assetUpdateDto);
@@ -44,7 +44,7 @@ public class AssetController {
         return Result.success();
     }
     
-    @PreAuthorize(value = "hasAuthority('asset:view)")
+    @PreAuthorize(value = "hasAuthority('asset:view')")
     @GetMapping("/{id}")
     public Result<AssetVo> getInfo(@PathVariable Integer id) {
         AssetVo assetVo = assetService.getById(id);
@@ -52,7 +52,7 @@ public class AssetController {
         return Result.success(assetVo);
     }
     
-    @PreAuthorize(value = "hasAuthority('asset:view)")
+    @PreAuthorize(value = "hasAuthority('asset:view')")
     @GetMapping
     public Result<List<AssetVo>> list() {
         List<AssetVo> assetVos = assetService.getAll();

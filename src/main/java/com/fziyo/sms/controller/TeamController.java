@@ -18,7 +18,7 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
     
-    @PreAuthorize(value = "hasAuthority('team:add)")
+    @PreAuthorize(value = "hasAuthority('team:add')")
     @PostMapping
     public Result<Void> add(@RequestBody TeamCreateDto teamCreateDto) {
         teamService.save(teamCreateDto);
@@ -26,7 +26,7 @@ public class TeamController {
         return Result.success();
     }
     
-    @PreAuthorize(value = "hasAuthority('team:delete)")
+    @PreAuthorize(value = "hasAuthority('team:delete')")
     @DeleteMapping("/{id}")
     public Result<Void> delete(@PathVariable Integer id) {
         teamService.deleteById(id);
@@ -34,7 +34,7 @@ public class TeamController {
         return Result.success();
     }
     
-    @PreAuthorize(value = "hasAuthority('team:view)")
+    @PreAuthorize(value = "hasAuthority('team:view')")
     @GetMapping
     public Result<List<TeamVo>> list() {
         List<TeamVo> teamVos = teamService.getAll();

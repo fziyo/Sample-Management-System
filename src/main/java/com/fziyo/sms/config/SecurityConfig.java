@@ -1,7 +1,9 @@
 package com.fziyo.sms.config;
 
+import com.fziyo.sms.filter.JwtAuthenticationFilter;
 import com.fziyo.sms.handler.AuthenticationFailureHandlerImpl;
 import com.fziyo.sms.handler.AuthenticationSuccessHandlerImpl;
+import org.springframework.aop.BeforeAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +13,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableMethodSecurity(securedEnabled = true)
 @Configuration
@@ -21,6 +25,8 @@ public class SecurityConfig {
     private AuthenticationSuccessHandlerImpl authenticationSuccessHandler;
     @Autowired
     private AuthenticationFailureHandlerImpl authenticationFailureHandler;
+    @Autowired
+    private JwtAuthenticationFilter  jwtAuthenticationFilter;
     
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -46,6 +52,7 @@ public class SecurityConfig {
                        authorizeRequests
                            .anyRequest().authenticated();
                    })
+                       .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                    .build();
     }
     

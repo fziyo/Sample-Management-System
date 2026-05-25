@@ -18,7 +18,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
     
-    @PreAuthorize(value = "hasAuthority('category:add)")
+    @PreAuthorize(value = "hasAuthority('category:add')")
     @PostMapping
     public Result<Void> add(@RequestBody CategoryCreateDto categoryCreateDto) {
         categoryService.save(categoryCreateDto);
@@ -26,7 +26,7 @@ public class CategoryController {
         return Result.success();
     }
     
-    @PreAuthorize(value = "hasAuthority('category:delete)")
+    @PreAuthorize(value = "hasAuthority('category:delete')")
     @DeleteMapping("/{id}")
     public Result<Void> delete(@PathVariable Integer id) {
         categoryService.deleteById(id);
@@ -34,7 +34,7 @@ public class CategoryController {
         return Result.success();
     }
     
-    @PreAuthorize(value = "hasAuthority('category:view)")
+    @PreAuthorize(value = "hasAuthority('category:view')")
     @GetMapping
     public Result<List<CategoryVo>> list() {
         List<CategoryVo> categoryVos = categoryService.getAll();
